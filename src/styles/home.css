@@ -1,0 +1,173 @@
+.navbar-menu{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+
+.navbar-top a, .navbar-top span {
+    color: white;
+    margin-right: 12px;
+    font-size: 18px;
+}
+.navbar-top{
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+}
+
+.navbar-bottom{
+    padding: 10px 30px;
+    background-color: white;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.07);
+    display: flex;
+    justify-content: space-between;
+}
+.navbar-bottom-left{
+    display: flex;
+    align-items: center;
+}
+.navbar-bottom-right{
+    padding-right: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-bottom a{
+    color: black;
+    text-transform: uppercase;
+    margin-left: 20px;
+    font-size: 17px;
+}
+.navbar-bottom-right i{
+    color: black;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 20px;
+}
+span.avatar-icon{
+    height: 35px;
+    width: 35px;
+    background-color: #bd081c;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid silver;
+    cursor: pointer;
+}
+.user-option{
+    width: 300px;
+    padding: 20px;
+    padding-top: 10px;
+    margin-top: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+.user-option p{
+    border-bottom: 1px solid #eee;
+    padding: 10px 5px;
+    margin-bottom: 0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.user-option p:hover{
+    transform: scale(1.02);
+}
+.user-option-btn{
+    border-style: none;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+.user-form{
+    border-radius: 12px;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.07);
+    border: 1px solid #eee;
+    min-height: 70vh;
+}
+.icon-form{
+    color: black;
+    font-size: 20px;
+    margin: 12px;
+}
+
+.user-form-left{
+    padding: 0;
+}
+@keyframes toRight{
+    from {
+        transform: translateX(100%);
+    }
+    to{
+        transform: translateX(0);
+    }
+}
+@keyframes toLeft{
+    from {
+        transform: translateX(-100%);
+    }
+    to{
+        transform: translateX(0);
+    }
+}
+.login-form{
+    animation: toLeft 0.8s;
+    min-height: 70vh;
+}
+.register-form{
+    animation: toRight 0.8s;
+    margin: 20px;
+}
+.background{
+    background-image: url('https://world.g-shock.com/assets/img/catalog/2021ss_ga110.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    min-height: 70vh;
+    width: 100%;
+    overflow: hidden;
+    animation: toRight 0.8s;
+}
+.background-right{
+    background-image: url('https://world.g-shock.com/assets/img/identity/bg.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    min-height: 70vh;
+    overflow: hidden;
+    animation: toLeft 0.8s;
+}
+.user-form-right{
+    padding: 0;
+}
+.line{
+    width: 100%;
+    height: 1px;
+    background-color: rgb(231, 227, 227);
+}
+.btn-icon{
+    border-style: none;
+    border-radius: 4px;
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    color: white;
+}
+.btn-icon:first-child{
+    background-color: #dd4b39;
+}
+.btn-icon:nth-child(2){
+    background-color: #3b5998;
+}
+.btn-icon:last-child{
+    background-color: #00aced;
+}
+.d-flex{
+    padding: 0;
+}
