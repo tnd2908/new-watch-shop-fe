@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Radio, Checkbox, InputNumber, Modal } from 'antd'
+import { Form, Input, Radio, Checkbox, InputNumber, Modal, Button } from 'antd'
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 const API_URL: string = 'http://localhost:5050' 
@@ -149,7 +149,7 @@ const RegisterForm = () => {
                     <Checkbox>I agree with all the terms and conditions</Checkbox>
                 </Form.Item>
                 <Form.Item wrapperCol={{ lg: { offset: 5, span: 14 }, xs: { span: 24 } }}>
-                    <button className="btn btn-dark" style={{ width: '100%' }}>Register</button>
+                    <Button size='large' className="btn btn-dark" style={{ width: '100%' }}>Register</Button>
                 </Form.Item>
             </Form>
         </div>

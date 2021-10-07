@@ -1,4 +1,4 @@
-import { Form, Input } from 'antd'
+import { Button, Form, Input, Modal } from 'antd'
 import React, { Fragment } from 'react'
 import logo from '../../assets/logo.png'
 import axios from "axios";
@@ -19,8 +19,20 @@ const LoginForm = () => {
                 else if (res.data.success == true && res.data.accessToken) {
                     localStorage.setItem('token', res.data.accessToken)
                     dispatch(userLogin())
-                    history.push('/')
+                    Modal.success({
+                        title: 'Welcome to GSHOCK',
+                        content: 'Login successfully',
+                        onOk(){
+                            history.push('/')
+                        },
+                        okButtonProps: {type: 'default'}
+                    })
                 }
+                else Modal.error({
+                    title: 'Login fail',
+                    content: res.data.message,
+                    okButtonProps: {type: 'default'}
+                })
             })
     }
     return (
@@ -34,9 +46,7 @@ const LoginForm = () => {
                 wrapperCol={{ span: 18 }}
                 onFinish={onFinish}
             >
-                <Form.Item wrapperCol={{ span: 23 }}>
-                    <div className="line"></div>
-                </Form.Item>
+                <div className="line"></div>
                 <Form.Item
                     label="Email"
                     name="email"
@@ -55,13 +65,13 @@ const LoginForm = () => {
                 <Form.Item
                     wrapperCol={{ span: 22 }}
                 >
-                    <div className="d-flex justify-content-between">
+                    <div className="d-flex justify-content-between switch-form">
                         <Link className="text-secondary" style={{ fontSize: '16px' }} to="/register">Forgot your password?</Link>
                         <Link className="text-dark" style={{ fontSize: '16px' }} to="/register">Don't have an account? <b> Register now</b></Link>
                     </div>
                 </Form.Item>
-                <Form.Item wrapperCol={{ offset: 5, span: 14 }}>
-                    <button className="btn btn-dark" style={{ width: '100%' }}>Login</button>
+                <Form.Item wrapperCol={{ lg:{offset: 5, span: 14}, sm: {offset: 0, span: 23}, xs: {offset: 0, span: 23} }}>
+                    <Button type="primary" htmlType="submit" size='large' className="btn btn-dark" style={{ width: '100%' }}>Login</Button>
                 </Form.Item>
                 <Form.Item wrapperCol={{ span: 23 }}>
                     <div className="line"></div>

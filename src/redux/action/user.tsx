@@ -24,3 +24,27 @@ export const userLogin = () =>{
         type: 'USER_LOGIN'
     }
 }
+export const setUserCart = (data: []) =>{
+    return{
+        type: 'SET_USER_CART',
+        payload: {data}
+    }
+}
+export const increase = (productId: any) =>{
+    return{
+        type: 'INCREASE_QUANTITY',
+        payload: productId
+    }
+}
+export const decrease = (productId: any) =>{
+    return{
+        type: 'DECREASE_QUANTITY',
+        payload: productId
+    }
+}
+export const remove = (productId: any) =>{
+    return{
+        type: 'REMOVE_ITEM',
+        payload: productId
+    }
+}

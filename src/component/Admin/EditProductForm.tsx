@@ -4,6 +4,10 @@ import { PlusOutlined } from '@ant-design/icons';
 import { API_URL } from '../../API/API';
 import axios from 'axios';
 import { ChromePicker } from 'react-color'
+import { useDispatch, useSelector } from 'react-redux';
+import { State } from '../../redux';
+import { setCategories } from '../../redux/action/category';
+import { useHistory, useParams } from 'react-router-dom';
 const { TextArea } = Input
 const { Option } = Select
 const normFile = (e: any) => {
@@ -13,20 +17,57 @@ const normFile = (e: any) => {
     }
     return e && e.fileList;
 };
-
-const AddProductForm = () => {
+type Params = {
+    id: string;
+};
+interface Detail {
+    name: string,
+    images: [any],
+    price: number,
+    description: string,
+    color: string,
+    category: {
+        name: string,
+        gender: string
+    },
+    size: string,
+    weight: string,
+    material: string,
+    quantity: number,
+    saleOf?: number
+}
+const EditProductForm = () => {
     const [form] = Form.useForm()
+    const history = useHistory()
+    const [status, setStatus] = useState<string>('')
     const [colors, setColors] = useState('#ffffff')
-    const [categories, setCategories] = useState([])
     const [showColorPicker, setShowColorPicker] = useState(false)
+    const categories = useSelector((state: State) => state.category.categories)
+    const [detail, setDetail] = useState<Detail>({
+        name: '',
+        images: [''],
+        price: 0,
+        description: '',
+        color: '',
+        category: {
+            name: '',
+            gender: ''
+        },
+        size: '',
+        weight: '',
+        material: '',
+        quantity: 0,
+        saleOf: 0
+    })
+    const dispatch = useDispatch()
+    const { id } = useParams<Params>()
     const onFinish = (data: any) => {
-        const imgArr: string[] = []
-        data.images.map((img: any) => imgArr.push(img.name))
-        const { name, price, category, gender, description, quantity, color, material, weight, size, status } = data
+        // const imgArr: string[] = []
+        // data.images.map((img: any) => imgArr.push(img.name))
+        const { name, price, category, description, quantity, color, material, weight, size, status, saleOf } = data
         const product = {
             name,
             price,
-            gender,
             description,
             category,
             quantity,
@@ -35,11 +76,12 @@ const AddProductForm = () => {
             material,
             weight,
             size,
-            images: imgArr
+            saleOf
+            // images: imgArr
         }
         console.log(product)
         try {
-            axios.post(`${API_URL}/product/add-new`, product, {
+            axios.put(`${API_URL}/product/${id}`, product, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('admin-token')}`
                 }
@@ -52,7 +94,7 @@ const AddProductForm = () => {
                                 <p> {res.data.message} </p>
                             ),
                             onOk() {
-                                form.resetFields()
+                                history.push('/admin/products')
                             }
                         })
                     }
@@ -70,19 +112,38 @@ const AddProductForm = () => {
             console.log(error)
         }
     }
-    useEffect(()=>{
+    const getCate = () => {
         try {
             axios.get(`${API_URL}/category`)
-                .then(res=>{
-                    if(res.data.success == true){
-                        setCategories(res.data.data.categories)
+                .then(res => {
+                    if (res.data.success == true) {
+                        dispatch(setCategories(res.data.data.categories))
                     }
                     else return
+                })
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        !categories.lenght && getCate()
+        try {
+            axios.get(`${API_URL}/product/${id}`)
+                .then(res => {
+                    console.log(res.data)
+                    if (res.data.success == true) {
+                        setDetail(res.data.data)
+                        const { name, price, description, quantity, color, material, weight, size, status, saleOf } = res.data.data
+                        const categoryId = res.data.data.category._id
+                        form.setFieldsValue({ name, price, description, quantity, color, material, weight, size, category: categoryId, status, saleOf })
+                    }
                 })
         } catch (error) {
             console.log(error)
         }
-    },[])
+    }, [])
+
     return (
         <>
             <Form
@@ -104,7 +165,7 @@ const AddProductForm = () => {
                                 name="name"
                                 rules={[{ required: true, message: `Please input product's name` }]}
                             >
-                                <Input placeholder="Product's name"/>
+                                <Input placeholder="Product's name" />
                             </Form.Item>
                         </div>
                         <div className="col-6">
@@ -114,18 +175,18 @@ const AddProductForm = () => {
                                 rules={[{ required: true, message: `Please select product's type` }]}
                             >
                                 <Select placeholder="Category of product" style={{ width: '100%' }}>
-                                    {categories.map((category: any)=>(
-                                        <Option value ={category._id}> {category.name} </Option>
+                                    {categories.map((category: any) => (
+                                        <Option value={category._id}> {category.name} </Option>
                                     ))}
                                 </Select>
                             </Form.Item>
                         </div>
                         <div className="relative" style={{ position: 'relative', width: '100%' }}>
-                            {showColorPicker && <ChromePicker color={colors} onChange={e => {setColors(e.hex); form.setFieldsValue({...form, color: colors})}} />}
+                            {showColorPicker && <ChromePicker color={colors} onChange={e => { setColors(e.hex); form.setFieldsValue({ ...form, color: colors }) }} />}
                             <span onClick={() => setShowColorPicker(!showColorPicker)} className="show-picker">
-                                {showColorPicker ? <span><i className="fal fa-minus-circle" style={{ marginRight: '5px' }}></i>Close</span> 
-                                : <Tooltip title="Get the color code here" placement="top">
-                                    <i className="fal fa-question-circle" style={{ marginRight: '5px' }}></i>Helps
+                                {showColorPicker ? <span><i className="fal fa-minus-circle" style={{ marginRight: '5px' }}></i>Close</span>
+                                    : <Tooltip title="Get the color code here" placement="top">
+                                        <i className="fal fa-question-circle" style={{ marginRight: '5px' }}></i>Helps
                                 </Tooltip>}
                             </span>
                         </div>
@@ -135,7 +196,7 @@ const AddProductForm = () => {
                                 name="price"
                                 rules={[{ required: true, message: `Please input product's price` }]}
                             >
-                                <InputNumber placeholder="Product's price" style={{ width: '100%' }}/>
+                                <InputNumber placeholder="Product's price" style={{ width: '100%' }} />
                             </Form.Item>
                         </div>
                         <div className="col-4">
@@ -157,7 +218,13 @@ const AddProductForm = () => {
                             </Form.Item>
                         </div>
                         <div className="col-6">
-                            
+                            {status === 'Sale Off' || detail.saleOf != 0 ? <Form.Item
+                                name='saleOf'
+                                label="Sale Of"
+                                rules={[{ required: true, message: 'Please input sale of' }]}
+                            >
+                                <InputNumber placeholder="Sale of " style={{ width: '100%' }} />
+                            </Form.Item>:<></>}
                         </div>
                         <div className="col-6">
                             <Form.Item
@@ -167,9 +234,10 @@ const AddProductForm = () => {
                                 label="Status"
                                 rules={[{ required: true, message: 'Please select status of product' }]}
                             >
-                                <Select placeholder="Status" style={{ width: '100%' }}>
+                                <Select placeholder="Status" style={{ width: '100%' }} onChange={(value: string) => setStatus(value)}>
                                     <Option value="New">New</Option>
                                     <Option value="Hot">Hot</Option>
+                                    <Option value="Sale Off">Sale Off</Option>
                                     <Option value="Normal">Normal</Option>
                                     <Option value="Hide">Hide</Option>
                                 </Select>
@@ -220,7 +288,7 @@ const AddProductForm = () => {
                                 <TextArea placeholder="Description" rows={4} style={{ width: '100%' }} />
                             </Form.Item>
                         </div>
-                        <div className="col-12">
+                        {/* <div className="col-12">
                             <Form.Item
                                 label="Image"
                                 name="images"
@@ -232,7 +300,7 @@ const AddProductForm = () => {
                                     <div style={{ width: '250px' }}><PlusOutlined /></div>
                                 </Upload>
                             </Form.Item>
-                        </div>
+                        </div> */}
                         <div className="col-12">
                             <Form.Item
                                 wrapperCol={{ offset: 10 }}
@@ -252,4 +320,4 @@ const AddProductForm = () => {
         </>
     );
 }
-export default AddProductForm
+export default EditProductForm
