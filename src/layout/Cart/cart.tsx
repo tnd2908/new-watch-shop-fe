@@ -20,7 +20,7 @@ const Cart = () => {
     const total: any = useSelector((state: State) => state.payment.total)
     const delivery: any = useSelector((state: State) => state.payment.delivery)
     const [subTotal, setSubTotal] = useState(0)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false) 
     const [render, setRender] = useState(false)
     const dispatch = useDispatch()
     const getUserCart = () => {
