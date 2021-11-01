@@ -1,16 +1,15 @@
-import { Modal, notification, Rate, Result, Tooltip } from 'antd';
+import {  notification, Result, Tooltip } from 'antd';
 import axios from 'axios';
 import React from 'react'
 import { useSelector } from 'react-redux';
-import { Link, useHistory } from "react-router-dom";
-import { API_URL } from '../../API/API';
-import { State } from '../../redux';
-import { addToLocalStorage } from '../../Util/function';
+import { Link,  } from "react-router-dom";
+import { API_URL } from '../../../API/API';
+import { State } from '../../../redux';
+import { addToLocalStorage } from '../../../Util/function';
 type ListProps = {
-    list: []
+    list: [],
 }
 const ProductVerticalList = ({ list }: ListProps) => {
-    const history = useHistory()
     const user = useSelector((state: State) => state.user.userInfor.userId)
     const addToCart = (item: any) => {
         if (user) {
@@ -51,19 +50,19 @@ const ProductVerticalList = ({ list }: ListProps) => {
         }
     }
     return (
-        <div className="container-fluid product-vertical-list">
+        <div className="container-fluid product-vertical-list mt-3">
             <div className="row">
                 {list.length ? list.map((item: any) => (
                     <div className="col-6 col-xl-4 pt-2 pb-2 box-item" key={item._id} >
-                        <div className="w-100 shadow-sm border-e">
+                        <div className="w-100">
                             <div className="box-image">
-                                <Link to={`/product/${item._id}`}><img src={`${API_URL}/upload/${item.images[0]}`} alt="" className="pd-image" /></Link>
+                                <Link to={`/product/${item.name}`}><img src={`${API_URL}/upload/${item.images[0]}`} alt="" className="pd-image" /></Link>
                                 <div className="box-behind flex-mid flex-column">
                                     <Tooltip placement="left" title="Add to favourite">
                                         <button><i className="fal fa-heart"></i></button>
                                     </Tooltip>
                                     <Tooltip placement="left" title="More details">
-                                        <Link to={`/product/${item._id}`}><button><i className="fal fa-eye"></i></button></Link>
+                                        <Link to={`/product/${item.name}`}><button><i className="fal fa-eye"></i></button></Link>
                                     </Tooltip>
                                     <Tooltip placement="left" title="Add to bag">
                                         <button

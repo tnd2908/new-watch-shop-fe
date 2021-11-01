@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Collapse, Divider, Radio } from 'antd';
-import { State } from '../../redux'
+import { Button, Collapse, Radio, Slider } from 'antd';
+import { State } from '../../../redux'
 import { useSelector } from 'react-redux'
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { API_URL } from '../../API/API';
+import { API_URL } from '../../../API/API';
 const { Panel } = Collapse;
 
 const MenuLeft = () => {
     const [colorList, setColorList] = useState([])
+    const [priceRange, setPriceRange] = useState<[number, number]>([0,10000])
     const history = useHistory()
     useEffect(() => {
         try {
-            axios.get(`${API_URL}/product/color`)
+            axios.get(`${API_URL}/color`)
                 .then(res => {
-                    console.log(res.data)
                     if (res.data.success == true)
                         setColorList(res.data.data)
                 })
@@ -27,10 +27,27 @@ const MenuLeft = () => {
     const location = useLocation()
     const activeTab = location.pathname.split('/')[2]
     const activeItem = location.pathname.split('/')[3]
+    const param = new URLSearchParams(location.search)
+    const marks = {
+        0: {
+            style: {
+                marginTop: '10px',
+                fontSize: '17px'
+            },
+            label: <span>${new Intl.NumberFormat().format(priceRange[0])}</span>,
+        },
+        10000: {
+            style: {
+                marginTop: '10px',
+                fontSize: '17px'
+            },
+            label: <span>${new Intl.NumberFormat().format(priceRange[1])}</span>,
+        },
+    };
     return (
         <div className="product-menu">
             <h4>Filter by</h4>
-            <Collapse defaultActiveKey={['color', 'men', activeTab]} ghost expandIconPosition="right" >
+            <Collapse defaultActiveKey={['color', 'men', 'sort', activeTab]} ghost expandIconPosition="right" >
                 <Panel header={<h6 className="product-menu-title">For men</h6>} key="men">
                     {categoriesForMen.map((item: any) => (
                         <Link to={`/product/men/${item._id}?page=1`}
@@ -49,22 +66,18 @@ const MenuLeft = () => {
                 <div className="line mt-2 mb-2"></div>
                 <Panel header={<h6 className="product-menu-title">Color</h6>} key="color">
                     <Radio.Group style={{ padding: '0' }}
-                        onChange={(e)=>{
-                        history.push(`${location.pathname}?color=${e.target.value.replaceAll('#', '%23')}&&page=1`)
+                        defaultValue={param.get("color") && param.get("color")}
+                        onChange={(e) => {
+                            history.push(`${location.pathname}?color=${e.target.value.replaceAll('#', '%23')}&&page=1`)
                         }}>
                         <div className="container-fluid" style={{ padding: '0px' }}>
                             <div className="row">
                                 {colorList.length ? colorList.map((item: any) => (
                                     <div className="menu-color" style={{ padding: '5px 10px' }}>
-                                        {item.includes(',') ? <Radio.Button
-                                            style={{ backgroundImage: `linear-gradient(100deg, ${item} 65%)`, marginRight: '10px' }}
-                                            key={item}
-                                            value={item}>
-                                        </Radio.Button>
-                                            : <Radio.Button style={{ backgroundColor: `${item}`, marginRight: '10px' }}
-                                                value={item}>
-                                            </Radio.Button>
-                                        }
+                                        {<Radio.Button style={{ backgroundColor: `${item.name}`, marginRight: '10px' }}
+                                            value={item.name}
+                                            key={item.name}>
+                                        </Radio.Button>}
                                     </div>
                                 )) : <Radio.Button value=""></Radio.Button>
                                 }
@@ -73,6 +86,20 @@ const MenuLeft = () => {
                     </Radio.Group>
                 </Panel>
                 <div className="line mt-2 mb-2"></div>
+                <Panel header={<h6 className="product-menu-title">Price from</h6>} key="sort">
+                    <Slider range
+                        defaultValue={priceRange}
+                        min={0}
+                        max={10000}
+                        step={100}
+                        onChange={e=>setPriceRange(e)}
+                        tooltipPlacement="bottom"
+                        tooltipVisible={false}
+                        tipFormatter={(value: any)=> <h6 className="text-white"> ${new Intl.NumberFormat().format(value)} </h6>}
+                        marks={marks}
+                    />
+                    <Button className="mt-4 w-100">Sort</Button>
+                </Panel>
             </Collapse>
         </div>
     );

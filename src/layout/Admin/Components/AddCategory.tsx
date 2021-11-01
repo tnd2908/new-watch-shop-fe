@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Button, Input, Upload, Modal, Radio, Skeleton, Divider } from 'antd'
 import { UploadOutlined } from '@ant-design/icons';
-import { API_URL } from '../../API/API';
+import { API_URL } from '../../../API/API';
 import axios from 'axios';
 const normFile = (e: any) => {
     console.log('Upload event:', e);

@@ -34,19 +34,14 @@
     color: gray;
     text-decoration: underline;
 }
-.chrome-picker{
-    position: absolute !important;
-    top: 110px;
-    right: 0;
-    z-index: 99;
-}
+
 h1, h2, h3, h4, h5, h6, p{
     margin-bottom: 0;
 }
 
 @keyframes click{
     0% { box-shadow: 1px 3px 6px rgba(0, 0, 0, 0.1);
-        transform: scale(0.8);
+        transform: scale(0.9);
     }
     100% { box-shadow: none; transform: scale(1);}
     

@@ -34,18 +34,6 @@ const paymentReducer = (state = initialState, action: Action) =>{
             const {infor, list} = action.payload
             return {...state, userInfor: infor, cart: [...list]}
         }
-        case "NEXT_STEP":{
-            const newStep = state.step + 1
-            return {...state, step: newStep}
-        }
-        case "PREV_STEP":{
-            const newStep = state.step - 1
-            return {...state, step: newStep}
-        }
-        case "SET_STEP_1":{
-            const steps = 0
-            return {...state, step: steps}
-        }
         case "SET_TOTAL":{
             const price = action.payload
             return {...state, total: price}

@@ -82,6 +82,7 @@ const Navbar = () => {
                         <div className="navbar-top-left">
                             <button onClick={() => setVisible(true)} className="toggle-navbar"><i className="fal fa-bars"></i></button>
                             <img src={logo} alt="" className="logo" />
+                            <button className="toggle-user"><i className="fal fa-user"></i></button>
                         </div>
                         <div className="navbar-top-center">
                             <Input.Search style={{width: '100%'}} enterButton={<Button><SearchOutlined style={{color:'grey', margin: '0 auto'}}/></Button>} size="large" placeholder='Searching watches name'/>
@@ -145,10 +146,6 @@ const Navbar = () => {
                         </div>
                         <div className="nav-item">
                             <Link className="s17" to="/">About Us</Link>
-                            <p>
-                            {user.userId}
-
-                            </p>
                         </div>
                     </Drawer>
                     <div className="navbar-bottom w-100">

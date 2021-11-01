@@ -1,14 +1,16 @@
 import { Dropdown, Input, Menu } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import AddProductForm from "../../component/Admin/AddProductForm";
 import logo from '../../assets/logo-black.png'
 import { HomeOutlined, ContainerOutlined, AppstoreAddOutlined, TeamOutlined, IdcardOutlined, PlusOutlined } from '@ant-design/icons';
 import '../../styles/admin.css'
-import ProductList from "../../component/Admin/ProductList";
-import AddCategory from "../../component/Admin/AddCategory";
-import OrderList from "../../component/Admin/OrderList";
-import EditProductForm from "../../component/Admin/EditProductForm";
+import AddProductForm from "./Components/AddProductForm";
+import AddCategory from "./Components/AddCategory";
+import AddColor from "./Components/AddColor";
+import ProductList from "./Components/ProductList";
+import EditProductForm from "./Components/EditProductForm";
+import OrderList from "./Components/OrderList";
+
 const { SubMenu } = Menu
 interface AdminProps {
     url?: string
@@ -20,6 +22,7 @@ export const AdminPage = ({ url }: AdminProps) => {
         <>
             {url === 'add-product' && <AddProductForm />}
             {url === 'add-category' && <AddCategory />}
+            {url === 'add-color' && <AddColor />}
             {url === 'products' && <ProductList />}
             {url === 'edit-product' && <EditProductForm />}
             {!url && <OrderList/>}
@@ -55,6 +58,9 @@ export const AdminPage = ({ url }: AdminProps) => {
                             </Menu.Item>
                             <Menu.Item icon={<PlusOutlined />} key="/admin/add-category">
                                 <Link to="/admin/add-category">Add new category</Link>
+                            </Menu.Item>
+                            <Menu.Item icon={<PlusOutlined />} key="/admin/add-color">
+                                <Link to="/admin/add-color">Add new color</Link>
                             </Menu.Item>
                         </SubMenu>
                         <SubMenu key="sub2" title="Account management">

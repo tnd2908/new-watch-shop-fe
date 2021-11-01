@@ -1,20 +1,5 @@
 import * as React from 'react'
 
-export const setNextStep = () =>{
-    return{
-        type: 'NEXT_STEP'
-    }
-}
-export const setPrevStep = () =>{
-    return{
-        type: 'PREV_STEP'
-    }
-}
-export const setStepOne = () =>{
-    return{
-        type: 'SET_STEP_1'
-    }
-}
 export const setTotal = (total: number) =>{
     return{
         type: 'SET_TOTAL',

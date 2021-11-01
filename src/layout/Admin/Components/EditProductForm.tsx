@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, InputNumber, Upload, Button, Select, Radio, Modal, Tooltip } from 'antd'
-import { PlusOutlined } from '@ant-design/icons';
-import { API_URL } from '../../API/API';
+import { Form, Input, InputNumber, Upload, Button, Select, Modal, Tooltip } from 'antd'
+import { API_URL } from '../../../API/API';
 import axios from 'axios';
 import { ChromePicker } from 'react-color'
 import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../../redux';
-import { setCategories } from '../../redux/action/category';
+import { State } from '../../../redux';
+import { setCategories } from '../../../redux/action/category';
 import { useHistory, useParams } from 'react-router-dom';
 const { TextArea } = Input
 const { Option } = Select
@@ -18,9 +17,10 @@ const normFile = (e: any) => {
     return e && e.fileList;
 };
 type Params = {
-    id: string;
+    name: string;
 };
 interface Detail {
+    _id: string,
     name: string,
     images: [any],
     price: number,
@@ -44,6 +44,7 @@ const EditProductForm = () => {
     const [showColorPicker, setShowColorPicker] = useState(false)
     const categories = useSelector((state: State) => state.category.categories)
     const [detail, setDetail] = useState<Detail>({
+        _id: '',
         name: '',
         images: [''],
         price: 0,
@@ -60,7 +61,7 @@ const EditProductForm = () => {
         saleOf: 0
     })
     const dispatch = useDispatch()
-    const { id } = useParams<Params>()
+    const { name } = useParams<Params>()
     const onFinish = (data: any) => {
         // const imgArr: string[] = []
         // data.images.map((img: any) => imgArr.push(img.name))
@@ -81,7 +82,7 @@ const EditProductForm = () => {
         }
         console.log(product)
         try {
-            axios.put(`${API_URL}/product/${id}`, product, {
+            axios.put(`${API_URL}/product/${detail._id}`, product, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('admin-token')}`
                 }
@@ -129,7 +130,7 @@ const EditProductForm = () => {
     useEffect(() => {
         !categories.lenght && getCate()
         try {
-            axios.get(`${API_URL}/product/${id}`)
+            axios.get(`${API_URL}/product/${name}`)
                 .then(res => {
                     console.log(res.data)
                     if (res.data.success == true) {
@@ -143,7 +144,6 @@ const EditProductForm = () => {
             console.log(error)
         }
     }, [])
-
     return (
         <>
             <Form

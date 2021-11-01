@@ -149,7 +149,7 @@ const RegisterForm = () => {
                     <Checkbox>I agree with all the terms and conditions</Checkbox>
                 </Form.Item>
                 <Form.Item wrapperCol={{ lg: { offset: 5, span: 14 }, xs: { span: 24 } }}>
-                    <Button size='large' className="btn btn-dark" style={{ width: '100%' }}>Register</Button>
+                    <Button htmlType="submit" size='large' className="btn btn-dark" style={{ width: '100%' }}>Register</Button>
                 </Form.Item>
             </Form>
         </div>

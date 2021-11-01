@@ -1,7 +1,7 @@
 import { Table } from 'antd'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { API_URL } from '../../API/API'
+import { API_URL } from '../../../API/API'
 import moment from 'moment'
 const {Column} = Table
 const OrderList = () =>{
@@ -28,7 +28,6 @@ const OrderList = () =>{
                 <Column title="Total" key="total" render={data => (
                     <span>${new Intl.NumberFormat().format(data.total)}</span>
                 )}/>
-                <Column title="Phone" dataIndex="phone" key="phone" />
                 <Column title="Status" dataIndex="status" key="status" />
                 <Column title="Date" key="createAt" render={date =>(
                     <span> {moment(date.createAt).format('HH:mm DD/MM/YYYY')} </span>

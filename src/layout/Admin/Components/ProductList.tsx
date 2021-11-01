@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import {Table, Button} from 'antd'
+import {Table} from 'antd'
 import axios from 'axios'
-import { API_URL } from '../../API/API'
+import { API_URL } from '../../../API/API'
 import { Link } from 'react-router-dom'
 const {Column} = Table
 const ProductList = () =>{
@@ -34,7 +34,7 @@ const ProductList = () =>{
                     render={action => (
                         <div className="d-flex">
                             <button className="admin-btn-detail">Detail</button>
-                            <Link to={`/admin/product/edit-product/${action._id}`}><button className="admin-btn-edit">Edit</button></Link>
+                            <Link to={`/admin/product/edit-product/${action.name}`}><button className="admin-btn-edit">Edit</button></Link>
                         </div>
                     )} />
             </Table>

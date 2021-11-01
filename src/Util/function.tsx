@@ -5,7 +5,6 @@ export const addToLocalStorage = (item: any) =>{
     if(localStorage.getItem('cart')){
         const cart = JSON.parse(localStorage.getItem("cart")!)
         const condition = cart.some((watch: any)=> watch._id === item._id)
-        console.log(condition)
         if(condition){
             cart.map((watch: any)=>{
                 if(watch._id === item._id){
@@ -29,7 +28,7 @@ export const addToLocalStorage = (item: any) =>{
     }
     else {
         const cart = []
-        cart.push(item)
+        cart.push({name, price, quantity, images, quantityInCart: 1, _id, saleOf})
         localStorage.setItem('cart', JSON.stringify(cart))
         notification['success']({
             message: 'Add success',

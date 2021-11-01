@@ -50,7 +50,6 @@ const userReducer = (state = initialState, action: Action) =>{
         case "INCREASE_QUANTITY":{
             const productId = action.payload
             const arr: any = []
-            console.log(1)
             state.cart.map((item)=>{
                 if(item._id === productId){
                     arr.push({...item, quantityInCart: item.quantityInCart + 1})

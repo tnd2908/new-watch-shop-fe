@@ -4,14 +4,13 @@
     left: 0;
     z-index: 999;
 }
-
 .navbar-top a, .navbar-top span {
     color: white;
     margin-right: 12px;
     font-size: 18px;
 }
 .navbar-top{
-    padding: 15px 50px;
+    padding: 20px 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -94,6 +93,8 @@ span.avatar-icon{
     box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.07);
     border: 1px solid #eee;
     min-height: 70vh;
+    margin-top: 150px;
+    margin-bottom: 50px;
 }
 .icon-form{
     color: black;
@@ -191,12 +192,15 @@ span.avatar-icon{
 }
 .banner-2{
     background-image: url('https://www.gshock-vietnam.vn/wp-content/uploads/2021/06/bg.jpg');
+
 }
 .banner-1{
     background-image: url('https://www.gshock-vietnam.vn/wp-content/uploads/2019/09/bg-2.jpg');
+
 }
 .banner-3{
     background-image: url('https://www.gshock-vietnam.vn/wp-content/uploads/2019/08/bg-1.jpg');
+
 }
 .banner h3{
     text-transform: uppercase;
@@ -204,24 +208,8 @@ span.avatar-icon{
     padding: 20px;
     font-weight: bolder;
     background-color: rgba(0, 0, 0, 0.4);
-    animation: down 1s;
 }
-@keyframes down{
-    from{
-        transform: translateY(-300px);
-    }
-    to{
-        transform: translateY(0);
-    }
-}
-@keyframes up{
-    from{
-        transform: translateY(100px);
-    }
-    to{
-        transform: translateY(0);
-    }
-}
+
 .banner p{
     color: white;
     font-size: large;
@@ -229,16 +217,13 @@ span.avatar-icon{
     text-align: center;
     font-weight: bold;
     margin-top: 20px;
-    background-color: rgba(0, 0, 0, 0.2);
-    animation: up 1s;
-
 }
 .medium-image{
     position: relative;
     overflow: hidden;
 }
 .medium-image img{
-    height: 50vh;
+    height: 30vh;
     width: 100%;
     filter: brightness(50%);
     transition: 0.5s ease-in-out;
@@ -308,9 +293,26 @@ span.avatar-icon{
     text-overflow: ellipsis;
 }
 .story-container{
-    padding-top: 40px;
-    padding-bottom: 40px;
     margin-bottom: 40px;
+}
+.service-box{
+    padding: 40px 5px;
+    flex-direction: column;
+    box-shadow: 1px 3px 6px rgba(0, 0, 0, 0.07);
+    border: 1px solid #eee;
+    background-color: #f6f6f6;
+    min-height: 150px;
+    margin-bottom: 15px;
+}
+.service-box h5{
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+.service-box i{
+    font-size: 30px;
 }
 @keyframes zoomin{
     0% {
@@ -363,7 +365,7 @@ span.avatar-icon{
     height: 100%;
     padding-top: 20px;
 }
-.toggle-navbar{
+.toggle-navbar, .toggle-user{
     background-color: black;
     color: white;
     font-size: 18px;
@@ -403,7 +405,7 @@ span.avatar-icon{
 .ant-collapse-header{
     color: white;
 }
-.ant-collapse-borderless > .ant-collapse-item{
+.drawer-menu .ant-collapse-borderless > .ant-collapse-item{
     border-bottom: 1px solid grey;
 }
 .nav-item a{
@@ -431,21 +433,36 @@ span.avatar-icon{
     display: flex;
     align-items: center;
 }
-.title .button-container{
+.button-container{
     height: 100%;
     margin-left: 20px;
 }
 .title h2{
     text-transform: uppercase;
 }
-.title .button-container button{
+.button-container button{
     border-style: none;
     background-color: #fff;
     border: 1px solid silver;
     margin: 0 5px;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    transition: 0.3s;
+    border-radius: 2px;
+}
+
+.button-container button:hover{
+    background-color: #eee;
+}
+.disable-btn{
+    opacity: 0.3;
+    cursor: not-allowed!important;
+}
+.button-container button.disable-btn:hover{
+    background-color: #fff;
+    border: 1px solid silver;
+    cursor: not-allowed!important;
+    color: black;
 }
 .product-card{
     max-width: 300px;
@@ -518,17 +535,41 @@ span.avatar-icon{
 .product-card-footer button{
     border-style: none;
     /* background: #fa8c16; */
-    background-color: white;
+    background-color: transparent;
     border: 1px solid grey;
     color: grey;
     height: 35px;
     border-radius: 5px;
     font-size: 16px;
+    z-index: 9;
     width: 70%;
+    position: relative;
+    overflow: hidden;
+}
+.product-card-footer button:hover{
+    color: white;
+    transition-delay: 0.3s;
+}
+.product-card-footer button::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 300px;
+    background-color: black;
+    transition: 0.7s;
+    transform: scale(0);
+    border-radius: 50%;
+    z-index: -9;
+}
+.product-card-footer button:hover::before{
+    transform: scale(1.5);
 }
 .container-fluid.footer{
     background-color: black;
 }
+
 @media only screen and (max-width: 991px) {
     .navbar-top{
         padding: 15px 20px;
@@ -572,7 +613,14 @@ span.avatar-icon{
         height: 25px;
     }
     .medium-image img{
-        height: 40vh;
+        height: 30vh;
+    }
+    .medium-image h3{
+        font-size: large;
+    }
+    .medium-image h3::before{
+        top: 30px;
+        width: 60px;
     }
     .title h2{
         font-size: large;
@@ -597,8 +645,9 @@ span.avatar-icon{
         font-size: medium;
     }
     .product-card-footer button{
-        font-size: 14px;
+        font-size: 13px;
         width: 100%;
+        height: 30px;
     }
     .product-card-body-color .color-block{
         width: 12px;
@@ -624,15 +673,32 @@ span.avatar-icon{
     .navbar-top .navbar-top-right a{
         display: none;
     }
+    .navbar-top-left{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+    .toggle-navbar{
+        margin-right: 0;
+    }
+    .toggle-user{
+        margin-right: 0;
+        display: block;
+    }
     img.logo{
-        width: 100px;
         cursor: pointer;
         display: block;
-        margin-right: 100px;
-        height: 15px;
+        height: 25px;
+        margin: 0 auto;
+    }
+    .drawer-menu img.logo{
+        margin: 0;
     }
     .user-form{
         border-style: none;
+        border-radius: 0;
+        margin-bottom: 0;
+        margin-top: 60px;
     }
     .switch-form{
         flex-direction: column;
@@ -661,10 +727,5 @@ span.avatar-icon{
     }
     .background, .background-right{
         min-height: 40vh;
-    }
-    .user-form.component{
-        margin-bottom: 0;
-        border-style: none;
-        margin-top: 60px;
     }
 }

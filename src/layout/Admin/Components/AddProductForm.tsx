@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, InputNumber, Upload, Button, Select, Radio, Modal, Tooltip } from 'antd'
+import { Form, Input, InputNumber, Upload, Button, Select, Modal } from 'antd'
 import { PlusOutlined } from '@ant-design/icons';
-import { API_URL } from '../../API/API';
+import { API_URL } from '../../../API/API';
 import axios from 'axios';
-import { ChromePicker } from 'react-color'
+import productAPI from '../../../API/productAPI';
 const { TextArea } = Input
 const { Option } = Select
 const normFile = (e: any) => {
@@ -15,10 +15,10 @@ const normFile = (e: any) => {
 };
 
 const AddProductForm = () => {
+    
     const [form] = Form.useForm()
-    const [colors, setColors] = useState('#ffffff')
     const [categories, setCategories] = useState([])
-    const [showColorPicker, setShowColorPicker] = useState(false)
+    const [color,setColor] = useState([])
     const onFinish = (data: any) => {
         const imgArr: string[] = []
         data.images.map((img: any) => imgArr.push(img.name))
@@ -71,17 +71,8 @@ const AddProductForm = () => {
         }
     }
     useEffect(()=>{
-        try {
-            axios.get(`${API_URL}/category`)
-                .then(res=>{
-                    if(res.data.success == true){
-                        setCategories(res.data.data.categories)
-                    }
-                    else return
-                })
-        } catch (error) {
-            console.log(error)
-        }
+        productAPI.getColor().then(res=>setColor(res))
+        productAPI.getCategory().then(res=>setCategories(res))
     },[])
     return (
         <>
@@ -120,15 +111,6 @@ const AddProductForm = () => {
                                 </Select>
                             </Form.Item>
                         </div>
-                        <div className="relative" style={{ position: 'relative', width: '100%' }}>
-                            {showColorPicker && <ChromePicker color={colors} onChange={e => {setColors(e.hex); form.setFieldsValue({...form, color: colors})}} />}
-                            <span onClick={() => setShowColorPicker(!showColorPicker)} className="show-picker">
-                                {showColorPicker ? <span><i className="fal fa-minus-circle" style={{ marginRight: '5px' }}></i>Close</span> 
-                                : <Tooltip title="Get the color code here" placement="top">
-                                    <i className="fal fa-question-circle" style={{ marginRight: '5px' }}></i>Helps
-                                </Tooltip>}
-                            </span>
-                        </div>
                         <div className="col-4">
                             <Form.Item
                                 label="Price"
@@ -153,7 +135,11 @@ const AddProductForm = () => {
                                 label="Color"
                                 rules={[{ required: true, message: 'Please input color' }]}
                             >
-                                <Input placeholder="Color" style={{ width: '100%' }} />
+                                <Select placeholder="Color" style={{ width: '100%' }}>
+                                    {color.map((item: any)=>(
+                                        <Option value ={item.name}> {item.name} </Option>
+                                    ))}
+                                </Select>
                             </Form.Item>
                         </div>
                         <div className="col-6">
