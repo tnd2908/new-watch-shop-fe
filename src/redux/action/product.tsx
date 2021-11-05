@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 export const setProductList = (list: Array<any>) =>{
     return{
         type: 'SET_PRODUCT_LIST',

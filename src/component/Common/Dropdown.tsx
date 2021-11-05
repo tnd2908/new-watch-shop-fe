@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { API_URL } from '../../API/API'
 import { State } from '../../redux'
@@ -17,7 +17,7 @@ const DropdownCategory = ({ gender }: DropdownProps) => {
         try {
             axios.get(`${API_URL}/category`)
                 .then(res => {
-                    if (res.data.success == true) {
+                    if (res.data.success === true) {
                         dispatch(setCategoriesForMen(res.data.data.categoriesForMen))
                         dispatch(setCategoriesForWomen(res.data.data.categoriesForWomen))
                     }

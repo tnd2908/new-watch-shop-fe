@@ -1,6 +1,5 @@
 import React from 'react'
 import { css } from "@emotion/react";
-import HashLoader from "react-spinners/HashLoader";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import ClockLoader from "react-spinners/ClockLoader";
 import logo from '../../assets/logo-black.png'

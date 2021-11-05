@@ -1,5 +1,5 @@
 import React, {  useState } from 'react'
-import { Form, Button, Input, Modal, Radio, Divider } from 'antd'
+import { Form, Button, Input, Modal, Divider } from 'antd'
 import axios from 'axios';
 import { SketchPicker } from 'react-color'
 import { API_URL } from '../../../API/API';
@@ -17,7 +17,7 @@ const AddColor = () => {
                 }
             })
                 .then(res => {
-                    if (res.data.success == true) {
+                    if (res.data.success === true) {
                         Modal.success({
                             title: 'Success',
                             content: (

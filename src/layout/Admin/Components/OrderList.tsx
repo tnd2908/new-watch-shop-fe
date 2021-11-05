@@ -10,7 +10,7 @@ const OrderList = () =>{
         try {
             axios.get(`${API_URL}/bill`)
                 .then(res=>{
-                    if(res.data.success == true ){
+                    if(res.data.success === true ){
                         setOrderList(res.data.data)
                     }
                     console.log(res.data)

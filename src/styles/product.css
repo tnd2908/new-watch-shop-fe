@@ -1,6 +1,5 @@
 .product-banner{
     position: relative;
-    margin-top: 110px;
     height: 300px;
     padding: 0;
 }
@@ -15,7 +14,7 @@
     top: 40%;
     left: 50%;
     transform: translateY(-50%)translateX(-50%);
-    z-index: 99;
+    z-index: 0;
     font-weight: bolder;
     border: 3px solid white;
     padding: 10px 30px; 
@@ -28,6 +27,7 @@
 }
 .detail-description{
     font-size: 16px;
+    padding: 20px;
     color: #434445;
 }
 .image-container{
@@ -398,6 +398,10 @@
 .anticon-like, .anticon-dislike{
     font-size: 18px;
 }
+.ant-comment-content{
+    background-color: rgba(var(--bs-light-rgb),var(--bs-bg-opacity))!important;
+    padding: 15px;
+}
 .count-star{
     width: 50%;
 }
@@ -449,9 +453,6 @@
     }
     .product-container{
         width: 100%;
-    }
-    .product-banner{
-        margin-top: 60px;
     }
     .product-banner .product-banner-title h2{
         font-size: medium;

@@ -20,7 +20,7 @@ const ProductVerticalList = ({ list }: ListProps) => {
                 axios.post(`${API_URL}/auth/cart/${user}`, data)
                     .then(res => {
                         console.log(res.data)
-                        if (res.data.success == true) {
+                        if (res.data.success === true) {
                             notification['success']({
                                 message: 'Success',
                                 description: (
@@ -85,7 +85,7 @@ const ProductVerticalList = ({ list }: ListProps) => {
                             </div>
                             <div className="box-body">
                                 <Link to={`/product/${item._id}`}><h5> {item.name} </h5></Link>
-                                {item.saleOf != 0 ?
+                                {item.saleOf !== 0 ?
                                     <div className="d-flex align-items-end">
                                         <h6 className="new-price"> ${item.price * (100 - item.saleOf) / 100} </h6>
                                         <p className="old-price"> ${item.price} </p>

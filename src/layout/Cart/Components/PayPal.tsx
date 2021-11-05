@@ -9,12 +9,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../../API/API";
 import { setUserCart } from "../../../redux/action/user";
-
-
 const paypalScriptOptions: PayPalScriptOptions = {
     "client-id":
         "AZ6P1Hr6TdK9BcDuIxf6WkDmUrbdRVGoGVl0KMGYCmvpvPxp9RFdbu8G1TPQ9TmTg0SbOUSvf1i80wnX",
     currency: "USD",
+    locale: "en_US"
 };
 type Props = {
     list: [any],
@@ -25,14 +24,9 @@ const PayPal = ({ list, total }: Props) => {
     const [productList, setProductList] = useState([])
     const delivery: any = useSelector((state: State) => state.payment.delivery)
     const [err,setErr] = useState(false)
-    const [disable, setDisable] = useState(false)
     const [visible, setVisible] = useState(false)
     const dispatch = useDispatch()
     useEffect(() => {
-        if (total == 0)
-            setDisable(true)
-        else
-            setDisable(false)
         if (list.length) {
             const arr: any = []
             list.map((item: any) => {
@@ -102,7 +96,7 @@ const PayPal = ({ list, total }: Props) => {
                     axios.post(`${API_URL}/bill/add`, bill)
                         .then(res => {
                             console.log(res.data)
-                            if (res.data.success == true) {
+                            if (res.data.success === true) {
                                 dispatch(setUserCart([]))
                                 if (!userId) {
                                     localStorage.removeItem("cart")

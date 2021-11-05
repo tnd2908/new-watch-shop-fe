@@ -20,7 +20,7 @@ const RegisterForm = () => {
             }
             axios.post(`${API_URL}/auth/register`, infor)
                 .then(res=>{
-                    if(res.data.success == true){
+                    if(res.data.success === true){
                         Modal.success({
                             title: "Success",
                             content: (

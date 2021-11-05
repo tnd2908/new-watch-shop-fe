@@ -10,26 +10,24 @@ SwiperCore.use([Navigation])
 type ListProps = {
     list: [],
     title: string,
-    hideTitle?: boolean
+    hideTitle?: boolean,
+    max?: number
 }
 
-const ProductList = ({ list, title, hideTitle }: ListProps) => {
+const ProductList = ({ list, title, hideTitle, max }: ListProps) => {
     useEffect(() => {
         Aos.init({ duration: 600 })
     }, [])
     return (
-        <div data-aos='fade-right' data-aos-offset={160} className="container-fluid pt-3 pb-2 bg-white">
-            {!hideTitle &&
-                <>
-                    <div className="title">
-                        <h2> {title} </h2>
-                        <div className="button-container">
-                            <button className={`prev-${title.split(' ').join('-')}`}><i className="fal fa-chevron-left"></i></button>
-                            <button className={`next-${title.split(' ').join('-')}`}><i className="fal fa-chevron-right"></i></button>
-                        </div>
-                    </div>
-                    <Divider></Divider>
-                </>}
+        <div data-aos='fade-right' data-aos-offset={160} className="container-fluid pt-3 pb-2">
+            <div className="title">
+                {!hideTitle && <h2> {title} </h2>}
+                <div className="button-container">
+                    <button className={`prev-${title.split(' ').join('-')}`}><i className="fal fa-chevron-left"></i></button>
+                    <button className={`next-${title.split(' ').join('-')}`}><i className="fal fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <Divider></Divider>
             {list.length ? <Swiper
                 slidesPerView={2}
                 spaceBetween={10}
@@ -51,16 +49,16 @@ const ProductList = ({ list, title, hideTitle }: ListProps) => {
                         spaceBetween: 10
                     },
                     1200: {
-                        slidesPerView: 3,
+                        slidesPerView: max === 5 ? 4 : 3,
                         spaceBetween: 10
                     },
                     1500: {
-                        slidesPerView: 4,
+                        slidesPerView: max === 5 ? 5 : 4,
                         spaceBetween: 10
                     }
                 }}>
                 {list.map((item: any) => (
-                    <SwiperSlide key={item._id} className=" rounded" style={{ backgroundColor: "#f6f6f6" }}>
+                    <SwiperSlide key={item._id} className="bg-light rounded">
                         <div className="product-card">
                             <Link to={`/product/${item.name}`}><img src={`${API_URL}/upload/${item.images[0]}`} alt="" /></Link>
                             <div className="card-tag">
@@ -81,7 +79,7 @@ const ProductList = ({ list, title, hideTitle }: ListProps) => {
                                 </div>
                             </div>
                             <div className="product-card-footer">
-                                <button className="add-to-card"><i className="fal fa-shopping-bag left-icon"></i>Add to bag</button>
+                                <button><i className="fal fa-shopping-bag left-icon"></i>Add to bag</button>
                             </div>
                         </div>
                     </SwiperSlide>

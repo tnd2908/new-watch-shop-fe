@@ -15,7 +15,7 @@ const MenuLeft = () => {
         try {
             axios.get(`${API_URL}/color`)
                 .then(res => {
-                    if (res.data.success == true)
+                    if (res.data.success === true)
                         setColorList(res.data.data)
                 })
         } catch (error) {
@@ -79,8 +79,7 @@ const MenuLeft = () => {
                                             key={item.name}>
                                         </Radio.Button>}
                                     </div>
-                                )) : <Radio.Button value=""></Radio.Button>
-                                }
+                                )) : <Radio.Button value=""></Radio.Button>}
                             </div>
                         </div>
                     </Radio.Group>

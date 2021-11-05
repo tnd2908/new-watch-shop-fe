@@ -1,12 +1,13 @@
-import { Modal, notification } from "antd"
+import { notification } from "antd"
+import { Detail } from "./spec"
 
-export const addToLocalStorage = (item: any) =>{
+export const addToLocalStorage = (item: Detail) =>{
     const {_id, name, quantity, price, images, saleOf} = item
     if(localStorage.getItem('cart')){
         const cart = JSON.parse(localStorage.getItem("cart")!)
         const condition = cart.some((watch: any)=> watch._id === item._id)
         if(condition){
-            cart.map((watch: any)=>{
+            cart.forEach((watch: any)=>{
                 if(watch._id === item._id){
                     return watch.quantityInCart = watch.quantityInCart + 1
                 }

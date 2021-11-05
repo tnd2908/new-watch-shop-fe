@@ -1,5 +1,5 @@
 import { Button, Form, Input, Modal } from 'antd'
-import React, { Fragment } from 'react'
+import React from 'react'
 import logo from '../../assets/logo.png'
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
@@ -12,11 +12,11 @@ const LoginForm = () => {
         axios.post('http://localhost:5050/auth/login', data)
             .then(res => {
                 console.log(res.data)
-                if (res.data.success == true && res.data.adminToken) {
+                if (res.data.success === true && res.data.adminToken) {
                     localStorage.setItem('admin-token', res.data.adminToken)
                     history.push('/admin')
                 }
-                else if (res.data.success == true && res.data.accessToken) {
+                else if (res.data.success === true && res.data.accessToken) {
                     localStorage.setItem('token', res.data.accessToken)
                     dispatch(userLogin())
                     Modal.success({
@@ -38,7 +38,7 @@ const LoginForm = () => {
     return (
         <div className="login-form pw-4 pt-3 bg-white">
             <img src={logo} alt="" className="logo" />
-            <h3 style={{ fontWeight: 'normal' }} className="text-dark mt-2"><span className="icon-form"><i className="fas fa-user"></i></span>Login your Account</h3>
+            <h3 style={{ fontWeight: 'normal' }} className="mt-2"><i className="fas fa-user"></i>Login your Account</h3>
             <Form
                 name="basic"
                 labelCol={{ span: 5 }}

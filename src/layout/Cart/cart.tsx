@@ -27,7 +27,7 @@ const Cart = () => {
         setLoading(true)
         axios.get(`${API_URL}/auth/cart/${userId}`)
             .then(res => {
-                if (res.data.success == true && res.data.data.length) {
+                if (res.data.success === true && res.data.data.length) {
                     dispatch(setUserCart(res.data.data))
                     setLoading(false)
                 }
@@ -39,7 +39,7 @@ const Cart = () => {
         if (userId) {
             axios.put(`${API_URL}/auth/cart/${userId}`, data)
                 .then(res => {
-                    if (res.data.success == true) {
+                    if (res.data.success === true) {
                         notification['success']({
                             message: 'Remove success',
                             description: 'Removed this item in your cart. Please check it out'
@@ -66,7 +66,7 @@ const Cart = () => {
         if (cart.length >= 1) {
             let totalPrice = 0
             cart.map((item: any) => {
-                if(item.saleOf != 0)
+                if(item.saleOf !== 0)
                 return totalPrice += item.price * item.quantityInCart * (100 - item.saleOf)/100
                 else
                 return totalPrice += item.price * item.quantityInCart
@@ -80,7 +80,7 @@ const Cart = () => {
         }
     }, [cart.length, delivery, render])
     const setCart = () => {
-        if ( cart.length == 0 && localStorage.getItem('cart')?.length)
+        if ( localStorage.getItem('cart')?.length)
             dispatch(setUserCart(JSON.parse(localStorage.getItem('cart')!)))
         else return
     }
@@ -88,8 +88,11 @@ const Cart = () => {
         userId && getUserCart()
         !userId && setCart()
     }, [userId])
+    useEffect(()=>{
+        window.scrollTo(0,0)
+    },[])
     return (
-        <div className="container-fluid cart-page bg-e">
+        <div className="container-fluid cart-page" style={{backgroundColor:'#f6f6f6'}}>
             <div className="container">
                 <div className="row">
                     <div className="col-lg-8 pt-3 ">
@@ -115,7 +118,7 @@ const Cart = () => {
                                             </div>
                                         </div>
                                         <div className="col-6 col-md-4 pl-2 pr-2">
-                                            {item.saleOf != 0 ? <h4 className="text-danger"> ${item.price * (100-item.saleOf)/100} </h4>:
+                                            {item.saleOf !== 0 ? <h4 className="text-danger"> ${item.price * (100-item.saleOf)/100} </h4>:
                                                 <h4 className="text-red"> ${item.price} </h4>
                                             }
                                             <h5> {item.name} </h5>
@@ -163,7 +166,7 @@ const Cart = () => {
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <h6>Delivery</h6>
-                                    <p> {delivery == 0 ? 'Free' : `$${delivery}`} </p>
+                                    <p> {delivery === 0 ? 'Free' : `$${delivery}`} </p>
                                 </div>
                                 <div className="select w-100">
                                     <Select defaultValue={0}
@@ -175,7 +178,7 @@ const Cart = () => {
                                         <Option value={0}>Standard Delivery (Free)</Option>
                                         <Option value={10}>Fast Delivery <b>($10)</b></Option>
                                     </Select>
-                                        <button disabled={total == 0} className="checkout-btn mb-3">USE VOUNCHER</button>
+                                        <button disabled={total === 0} className="checkout-btn mb-3">USE VOUNCHER</button>
                                     <PayPal list = {cart} total={total}/>
                                 </div>
                             </div>

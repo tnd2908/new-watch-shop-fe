@@ -6,7 +6,7 @@ class ProductAPI {
     getColor = async () =>{
         try {
             const res = await axios.get(`${API_URL}/color`)
-            if(res.data.success == true)
+            if(res.data.success === true)
             return res.data.data
         } catch (error) {
             console.log(error)
@@ -15,7 +15,7 @@ class ProductAPI {
     getProduct = async (page: number) =>{
         try {
             const res = await axios.get(`${API_URL}/product?page=${page}`)
-            if(res.data.success == true)
+            if(res.data.success === true)
             return res.data.data
         } catch (error) {
             console.log(error)
@@ -24,7 +24,7 @@ class ProductAPI {
     getCategory  = async () =>{
         try {
             const res = await axios.get(`${API_URL}/category`)
-            if(res.data.success == true)
+            if(res.data.success === true)
             return res.data.data.categories
         } catch (error) {
             console.log(error)
@@ -33,7 +33,7 @@ class ProductAPI {
     queryProduct = async (data: {}) =>{
         try {
             const res = await axios.get(`${API_URL}/product/query?${querystring.stringify(data)}`)
-            if(res.data.success == true){
+            if(res.data.success === true){
                 return {
                     data: res.data.data,
                     totalPage: res.data.totalPage

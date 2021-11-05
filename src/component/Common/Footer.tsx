@@ -1,11 +1,11 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { API_URL } from '../../API/API'
 import { State } from '../../redux'
 import { setCategoriesForMen, setCategoriesForWomen } from '../../redux/action/category'
 import logo from '../../assets/logo-black.png'
-import { Button, Divider, Input } from 'antd'
+import { Button, Input } from 'antd'
 import { useLocation } from 'react-router-dom'
 const Footer = () => {
     const categoriesForMen: [] = useSelector((state: State) => state.category.categoriesForMen)
@@ -16,7 +16,7 @@ const Footer = () => {
         try {
             axios.get(`${API_URL}/category`)
                 .then(res => {
-                    if (res.data.success == true) {
+                    if (res.data.success === true) {
                         dispatch(setCategoriesForMen(res.data.data.categoriesForMen))
                         dispatch(setCategoriesForWomen(res.data.data.categoriesForWomen))
                     }
@@ -29,7 +29,7 @@ const Footer = () => {
     useEffect(() => {
         if (!categoriesForWomen.length || !categoriesForMen.length)
             getCate()
-    }, [])
+    },[])
     if (location.pathname.startsWith('/admin'))
         return <></>
     else
@@ -60,7 +60,7 @@ const Footer = () => {
                                     </Button>} />
                         </div>
                         <div className="col-lg-4 d-flex align-items-center">
-                            <iframe className="iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.463577157704!2d106.66529475092798!3d10.775762592284295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f9023a3a85d%3A0xdee5c99a7b02feab!2sHuflit!5e0!3m2!1svi!2s!4v1635573181978!5m2!1svi!2s" style={{ height: '250px', width: '100%' }} loading="lazy"></iframe>
+                            <iframe title="address" className="iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.463577157704!2d106.66529475092798!3d10.775762592284295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f9023a3a85d%3A0xdee5c99a7b02feab!2sHuflit!5e0!3m2!1svi!2s!4v1635573181978!5m2!1svi!2s" style={{ height: '250px', width: '100%' }} loading="lazy"></iframe>
                         </div>
                     </div>
                     <div className="row mt-4">

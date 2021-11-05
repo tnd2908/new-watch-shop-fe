@@ -1,19 +1,33 @@
 *{
   font-family: 'Poppins', sans-serif;
-
 }
 p{
   margin-bottom: 0;
 }
+body{
+  background-color: #f8f9fa !important;
+  /* background-color: #262626 !important; */
+}
+// body.dark{
+//     background-color: #262626 !important;
+// }
 button{
   outline: none !important;
+  &:focus{
+    outline: none !important;
+  }
+  &:active{
+    outline: none !important;
+  }
 }
-
-button:focus{
+input[type="button"]{
   outline: none !important;
 }
-button:active, input[type="button"]{
-  outline: none !important;
+.d-flex{
+  padding: 0;
+}
+.ant-affix{
+  z-index: 999 !important;
 }
 @keyframes appear{
   from {
@@ -53,12 +67,6 @@ button:active, input[type="button"]{
 .p-15{
   padding: 15px;
 }
-.pl-1{
-  padding-left: 10px;
-}
-.pr-1{
-  padding-right: 10px;
-}
 .pl-2{
   padding-left: 20px;
 }
@@ -69,18 +77,18 @@ button:active, input[type="button"]{
   min-height: 100vh;
 }
 .component{
-  margin-top: 150px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 img{
   object-fit: cover;
 }
 img.logo{
-  width: 150px;
+  width: 180px;
   cursor: pointer;
   display: block;
   margin-right: 100px;
-  height: 25px;
+  height: 32px;
 }
 img.logo-small{
   width: 120px;
@@ -94,7 +102,7 @@ img.logo-small{
   height: 100vh;
   width: 100%;
   background-color: black;
-  z-index: 9999999;
+  z-index: 9999999 !important;
   animation: disAppear 1s;
   animation-delay: 1.5s;
 }
@@ -119,7 +127,6 @@ i.right-icon{
 .swiper {
   width: 100%;
   height: 100%;
-  
 }
 .ml-3{
   margin-left: 30px;
@@ -145,7 +152,6 @@ i.right-icon{
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
-
 }
 .tw{
   color: white;
@@ -224,8 +230,8 @@ p.text-btn{
 }
 @media only screen and (min-width: 1200px){
   .component{
-    padding-left: 160px;
-    padding-right: 160px;
+    padding-left: 140px;
+    padding-right: 140px;
   }
 }
 .all-product{
@@ -246,5 +252,9 @@ p.text-btn{
   }
   .container{
     overflow: hidden;
+  }
+  .pw-4{
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }

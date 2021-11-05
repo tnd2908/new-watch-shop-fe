@@ -1,7 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { API_URL } from '../../API/API'
-import {Collapse} from 'antd'
 import { Link } from 'react-router-dom';
 interface DropdownProps {
     gender?: string
@@ -13,7 +12,7 @@ const ReponsiveDropdown = ({gender}: DropdownProps) =>{
         try {
             axios.get(`${API_URL}/category`)
                 .then(res => {
-                    if (res.data.success == true) {
+                    if (res.data.success === true) {
                         setCategoriesForMen(res.data.data.categoriesForMen)
                         setCategoriesForWomen(res.data.data.categoriesForWomen)
                     }

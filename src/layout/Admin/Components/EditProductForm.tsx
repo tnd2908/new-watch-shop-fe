@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, InputNumber, Upload, Button, Select, Modal, Tooltip } from 'antd'
+import { Form, Input, InputNumber, Button, Select, Modal, Tooltip } from 'antd'
 import { API_URL } from '../../../API/API';
 import axios from 'axios';
 import { ChromePicker } from 'react-color'
@@ -9,13 +9,7 @@ import { setCategories } from '../../../redux/action/category';
 import { useHistory, useParams } from 'react-router-dom';
 const { TextArea } = Input
 const { Option } = Select
-const normFile = (e: any) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-        return e;
-    }
-    return e && e.fileList;
-};
+
 type Params = {
     name: string;
 };
@@ -88,7 +82,7 @@ const EditProductForm = () => {
                 }
             })
                 .then(res => {
-                    if (res.data.success == true) {
+                    if (res.data.success === true) {
                         Modal.success({
                             title: 'Success',
                             content: (
@@ -99,7 +93,7 @@ const EditProductForm = () => {
                             }
                         })
                     }
-                    else if (res.data.success == false) {
+                    else if (res.data.success === false) {
                         Modal.error({
                             title: 'Error',
                             content: (
@@ -114,26 +108,21 @@ const EditProductForm = () => {
         }
     }
     const getCate = () => {
-        try {
-            axios.get(`${API_URL}/category`)
-                .then(res => {
-                    if (res.data.success == true) {
-                        dispatch(setCategories(res.data.data.categories))
-                    }
-                    else return
-                })
-
-        } catch (error) {
-            console.log(error)
-        }
+        axios.get(`${API_URL}/category`)
+        .then(res => {
+            if (res.data.success === true) {
+                dispatch(setCategories(res.data.data.categories))
+            }
+            else return
+        })
     }
     useEffect(() => {
-        !categories.lenght && getCate()
         try {
+            !categories.lenght && getCate()
             axios.get(`${API_URL}/product/${name}`)
                 .then(res => {
                     console.log(res.data)
-                    if (res.data.success == true) {
+                    if (res.data.success === true) {
                         setDetail(res.data.data)
                         const { name, price, description, quantity, color, material, weight, size, status, saleOf } = res.data.data
                         const categoryId = res.data.data.category._id
@@ -218,13 +207,13 @@ const EditProductForm = () => {
                             </Form.Item>
                         </div>
                         <div className="col-6">
-                            {status === 'Sale Off' || detail.saleOf != 0 ? <Form.Item
+                            {status === 'Sale Off' || detail.saleOf !== 0 ? <Form.Item
                                 name='saleOf'
                                 label="Sale Of"
                                 rules={[{ required: true, message: 'Please input sale of' }]}
                             >
                                 <InputNumber placeholder="Sale of " style={{ width: '100%' }} />
-                            </Form.Item>:<></>}
+                            </Form.Item> : <></>}
                         </div>
                         <div className="col-6">
                             <Form.Item

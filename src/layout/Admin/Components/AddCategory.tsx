@@ -31,7 +31,7 @@ const AddCategory = () => {
                 }
             })
                 .then(res => {
-                    if (res.data.success == true) {
+                    if (res.data.success === true) {
                         Modal.success({
                             title: 'Success',
                             content: (
@@ -55,7 +55,7 @@ const AddCategory = () => {
         try {
             axios.get(`${API_URL}/category`)
                 .then(res => {
-                    if (res.data.success == true) {
+                    if (res.data.success === true) {
                         setCategoriesForMen(res.data.data.categoriesForMen)
                         setCategoriesForWomen(res.data.data.categoriesForWomen)
                     }

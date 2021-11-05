@@ -6,8 +6,11 @@ interface FormProps {
 }
 
 const AuthPage = ({form}: FormProps) => {
+    React.useEffect(()=>{
+        window.scrollTo(0,0)
+    },[form])
     return (
-        <div className="container user-form">
+        <div className="container user-form bg-white">
             <div className="row">
                 <div className="col-lg-6 user-form-left">
                     {form === 'login'?<div className="background"></div>:<RegisterForm/>}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Input, Button, Steps, Modal } from 'antd';
+import { Form, Input, Button, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../../../redux';
 import axios from 'axios';
@@ -45,7 +45,7 @@ const UserInforForm = ({ list, total, delivery, next }: UserInforFormProps) => {
         }
         axios.post(`${API_URL}/bill/add`, data)
         .then(res => {
-            if (res.data.success == true) {
+            if (res.data.success === true) {
                 Modal.success({
                     title: 'Success',
                     onOk() {

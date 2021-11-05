@@ -2,30 +2,17 @@ import React, {createElement, useEffect, useState} from 'react'
 import { Avatar, Button, Comment, Divider, Form, Input, Progress, Rate, Tooltip } from 'antd';
 import moment from 'moment'
 import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
+import { Detail } from '../../../Util/spec';
 type Props = {
     postComment: any,
     detail: Detail,
     countStar: any,
     total: number,
-    star: number
+    star: number,
+    form: any
 }
 
-interface Detail {
-    name: string,
-    images: [any],
-    price: number,
-    description: string,
-    color: string,
-    category: {
-        name: string,
-        gender: string
-    },
-    size: string,
-    weight: string,
-    material: string,
-    comment: []
-}
-const Review = ({postComment, detail, countStar, total, star}: Props) => {
+const Review = ({postComment, detail, countStar, total, star, form}: Props) => {
     const [likes, setLikes] = useState(0);
     const [dislikes, setDislikes] = useState(0);
     const [action, setAction] = useState<any>(null);
@@ -35,7 +22,6 @@ const Review = ({postComment, detail, countStar, total, star}: Props) => {
         setDislikes(0);
         setAction('liked');
     };
-    const [form] = Form.useForm()
     const dislike = () => {
         setLikes(0);
         setDislikes(1);
@@ -45,7 +31,7 @@ const Review = ({postComment, detail, countStar, total, star}: Props) => {
         form.setFieldsValue({star: star})
     },[])
     return (
-        <div className="container shadow-sm mb-5 pb-3" data-aos='fade-up'>
+        <div className="container mb-5 pb-3" data-aos='fade-up'>
             <div className="row mt-3">
                 <Form
                     name="basic"
@@ -96,7 +82,7 @@ const Review = ({postComment, detail, countStar, total, star}: Props) => {
                     >
                         <Input.TextArea rows={5} style={{ backgroundColor: '#f6f6f6' }} placeholder='Write your comment here' />
                     </Form.Item>
-                    {star != 0 ? <Form.Item style={{ margin: '0' }}>
+                    {star !== 0 ? <Form.Item style={{ margin: '0' }}>
                         <h5>Your rating </h5>
                     </Form.Item> : <></>}
                     <Form.Item
@@ -117,7 +103,6 @@ const Review = ({postComment, detail, countStar, total, star}: Props) => {
                     {detail.comment.length ? detail.comment.map((item: any) => (
                         <Comment
                             key={item._id}
-                            style={{ borderBottom: '1px solid #eee' }}
                             actions={[
                                 <Tooltip key={item._id + 'like'} title="Like">
                                     <span onClick={like}>
@@ -133,7 +118,7 @@ const Review = ({postComment, detail, countStar, total, star}: Props) => {
                                 </Tooltip>,
                                 <span key={item._id}>Reply to</span>,
                             ]}
-                            author={<a style={{ fontSize: '17px' }}>{item.userName}</a>}
+                            author={<a style={{ fontSize: '17px' }}> {item.userName}</a>}
                             avatar={
                                 <Avatar
                                     src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"

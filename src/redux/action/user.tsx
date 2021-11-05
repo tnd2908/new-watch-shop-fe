@@ -1,4 +1,3 @@
-import * as React from 'react'
 interface IUser{
     firstName: string,
     lastName: string,
@@ -30,19 +29,19 @@ export const setUserCart = (data: []) =>{
         payload: {data}
     }
 }
-export const increase = (productId: any) =>{
+export const increase = (productId: string) =>{
     return{
         type: 'INCREASE_QUANTITY',
         payload: productId
     }
 }
-export const decrease = (productId: any) =>{
+export const decrease = (productId: string) =>{
     return{
         type: 'DECREASE_QUANTITY',
         payload: productId
     }
 }
-export const remove = (productId: any) =>{
+export const remove = (productId: string) =>{
     return{
         type: 'REMOVE_ITEM',
         payload: productId

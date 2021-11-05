@@ -12,9 +12,28 @@ export interface Detail {
     size: string,
     weight: string,
     material: string,
-    comment: []
+    comment: [],
+    quantity: number,
+    saleOf: number,
+}
+export interface IUSer {
+    userInfor: {
+        firstName: string,
+        lastName: string,
+        phone: number,
+        gender: string,
+        userId?: string,
+        email: string,
+        ava: string,
+    },
+    auth: boolean,
+    cart: Array<any>,
 }
 export type Params = {
     id?: string;
     productName?: string;
 };
+export type Action = {
+    type: string,
+    payload: any
+}

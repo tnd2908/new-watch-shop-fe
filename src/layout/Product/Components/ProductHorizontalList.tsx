@@ -1,4 +1,4 @@
-import { Badge, Button, Divider, notification, Rate, Result, Tooltip } from 'antd';
+import { Button, notification, Rate, Result } from 'antd';
 import axios from 'axios';
 import React from 'react'
 import { useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ const ProductHorizontalList = ({ list }: ListProps) => {
                 axios.post(`${API_URL}/auth/cart/${user}`, data)
                     .then(res => {
                         console.log(res.data)
-                        if (res.data.success == true) {
+                        if (res.data.success === true) {
                             notification['success']({
                                 message: 'Success',
                                 description: (
@@ -60,7 +60,7 @@ const ProductHorizontalList = ({ list }: ListProps) => {
                         <div className="box-body col-7 col-md-8">
                             <div className="product-information">
                                 <Link to={`/product/${item.name}`}><h5> {item.name} </h5></Link>
-                                {item.saleOf != 0 ?
+                                {item.saleOf !== 0 ?
                                     <div className="d-flex">
                                         <p className="new-price"> ${item.price * (100 - item.saleOf) / 100} </p>
                                         <p className="old-price"> ${item.price} </p>

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {combineReducers} from 'redux'
 import categoryReducer from './CategoryReducer'
 import paymentReducer from './PaymentReducer'

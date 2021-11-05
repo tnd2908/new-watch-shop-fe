@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Banner from './Components/Banner'
 import ProductList from '../../component/Common/ProductList'
 import axios from "axios";
@@ -16,12 +16,11 @@ const HomePage = () => {
     const dispatch = useDispatch()
     const productNewList: [] = useSelector((state: State) => state.product.productNewList)
     const productHotList: [] = useSelector((state: State) => state.product.productHotList)
-
     const getProductList = () => {
         try {
             axios.get(`${API_URL}/product/status/New?page=1`)
                 .then(res => {
-                    if (res.data.success == true) {
+                    if (res.data.success === true) {
                         dispatch(setProductNewList(res.data.data))
                     }
                     else return
@@ -34,7 +33,7 @@ const HomePage = () => {
         try {
             axios.get(`${API_URL}/product/status/Hot?page=1`)
                 .then(res => {
-                    if (res.data.success == true) {
+                    if (res.data.success === true) {
                         dispatch(setProductHotList(res.data.data))
                     }
                     else return
@@ -43,18 +42,19 @@ const HomePage = () => {
             console.log(error)
         }
     }
+
     useEffect(() => {
         !productNewList.length && getProductList()
         !productHotList.length && getProductHotList()
-        window.scrollTo(0,0)
+        window.scrollTo(0, 0)
         Aos.init({ duration: 600 })
     }, [])
     return (
-        <div className="container-fluid component-top" >
+        <div className="container-fluid component-top bg-white">
             <div className="row">
                 <Banner />
             </div>
-            <div className="container component" style={{ marginTop: '5px' }}>
+            <div className="container" style={{ marginTop: '5px' }}>
                 <div className="row">
                     <Link to='/product?page=1' data-aos='fade-up' data-aos-offset={60} className="col-md-6 medium-image mt-4 ">
                         <img src={men} alt="" />
@@ -69,60 +69,60 @@ const HomePage = () => {
                     </div>
                 </div>
                 <div className="p-4">
-                    <p data-aos='fade-up' data-aos-offset={0} style={{ fontSize: '17px', textAlign: 'center' }}>The most durable digital and analog-digital watches in the industry, trusted by military personnel, law enforcement, surfers and outdoor enthusiasts around the world.</p>
+                    <p data-aos='fade-up' data-aos-offset={0} style={{ fontSize: '18px', textAlign: 'center' }}>The most durable digital and analog-digital watches in the industry, trusted by military personnel, law enforcement, surfers and outdoor enthusiasts around the world.</p>
                 </div>
-                <ProductList list={productNewList} title="New watches" />
-                <ProductList list={productHotList} title="Best selling" />
-            </div>
-            <div data-aos='fade-up' className="row story-container">
-                <Divider orientation="center" >
-                    <h2>OUR STORIES</h2>
-                </Divider>
-                <div className="col-md-4 story mt-5">
-                    <img src="https://www.gshock-vietnam.vn/wp-content/uploads/2019/08/GBD-800-8-6.png" alt="" />
-                    <div className="w-100 flex-mid flex-column">
-                        <h5>Story title</h5>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit officia, ab, cum, in reprehenderit nostrum doloremque nihil ut aut unde modi alias amet numquam veniam maxime fuga a quasi eligendi.</p>
+                <ProductList list={productNewList} title="New watches" max={5} />
+                <ProductList list={productHotList} title="Best selling" max={5} />
+                <div data-aos='fade-up' className="row story-container">
+                    <Divider orientation="center" >
+                        <h2>OUR STORIES</h2>
+                    </Divider>
+                    <div className="col-md-4 story mt-5">
+                        <img src="https://www.gshock-vietnam.vn/wp-content/uploads/2019/08/GBD-800-8-6.png" alt="" />
+                        <div className="w-100 flex-mid flex-column">
+                            <h5>Story title</h5>
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit officia, ab, cum, in reprehenderit nostrum doloremque nihil ut aut unde modi alias amet numquam veniam maxime fuga a quasi eligendi.</p>
+                        </div>
+                    </div>
+                    <div className="col-md-4 story mt-5">
+                        <img src="https://www.casio-intl.com/cs/Satellite?blobcol=urldata&blobheader=image%2Fjpeg&blobheadername1=content-disposition&blobheadervalue1=inline%3Bfilename%3DBA-110%28720_405%29.jpg&blobkey=id&blobtable=MungoBlobs&blobwhere=1426310854265&ssbinary=true" alt="" />
+                        <div className="w-100 flex-mid flex-column">
+                            <h5>Story title</h5>
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit officia, ab, cum, in reprehenderit nostrum doloremque nihil ut aut unde modi alias amet numquam veniam maxime fuga a quasi eligendi.</p>
+                        </div>
+                    </div>
+                    <div className="col-md-4 story mt-5">
+                        <img src="https://www.g-shock.eu/resource/images/story/philosophie-header_mobil.jpg" alt="" />
+                        <div className="w-100 flex-mid flex-column">
+                            <h5>Story title</h5>
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit officia, ab, cum, in reprehenderit nostrum doloremque nihil ut aut unde modi alias amet numquam veniam maxime fuga a quasi eligendi.</p>
+                        </div>
                     </div>
                 </div>
-                <div className="col-md-4 story mt-5">
-                    <img src="https://www.casio-intl.com/cs/Satellite?blobcol=urldata&blobheader=image%2Fjpeg&blobheadername1=content-disposition&blobheadervalue1=inline%3Bfilename%3DBA-110%28720_405%29.jpg&blobkey=id&blobtable=MungoBlobs&blobwhere=1426310854265&ssbinary=true" alt="" />
-                    <div className="w-100 flex-mid flex-column">
-                        <h5>Story title</h5>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit officia, ab, cum, in reprehenderit nostrum doloremque nihil ut aut unde modi alias amet numquam veniam maxime fuga a quasi eligendi.</p>
+                <div className="row mb-3">
+                    <div className="col-lg-3 col-6">
+                        <div className="service-box  pt-3 pb-3 mt-4 flex-mid ">
+                            <i className="fal fa-truck-loading"></i>
+                            <h5 >FREE STANDARD DELIVERY</h5>
+                        </div>
                     </div>
-                </div>
-                <div className="col-md-4 story mt-5">
-                    <img src="https://www.g-shock.eu/resource/images/story/philosophie-header_mobil.jpg" alt="" />
-                    <div className="w-100 flex-mid flex-column">
-                        <h5>Story title</h5>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit officia, ab, cum, in reprehenderit nostrum doloremque nihil ut aut unde modi alias amet numquam veniam maxime fuga a quasi eligendi.</p>
+                    <div className="col-lg-3 col-6">
+                        <div className="service-box pt-3 pb-3 mt-4 flex-mid" >
+                            <i className="fal fa-shipping-fast"></i>
+                            <h5 >FAST DELIVERY</h5>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div className="row mb-3">
-                <div className="col-lg-3 col-6">
-                    <div className="service-box  pt-3 pb-3 mt-4 flex-mid ">
-                        <i className="fal fa-truck-loading"></i>
-                        <h5 >FREE STANDARD DELIVERY</h5>
+                    <div className="col-lg-3 col-6">
+                        <div className="service-box pt-3 pb-3 mt-4 flex-mid">
+                            <i className="fal fa-hand-holding-box"></i>
+                            <h5>FREE AND EASY RETURNS</h5>
+                        </div>
                     </div>
-                </div>
-                <div className="col-lg-3 col-6">
-                    <div className="service-box pt-3 pb-3 mt-4 flex-mid" >
-                        <i className="fal fa-shipping-fast"></i>
-                        <h5 >FAST DELIVERY</h5>
-                    </div>
-                </div>
-                <div className="col-lg-3 col-6">
-                    <div className="service-box pt-3 pb-3 mt-4 flex-mid">
-                        <i className="fal fa-hand-holding-box"></i>
-                        <h5>FREE AND EASY RETURNS</h5>
-                    </div>
-                </div>
-                <div className="col-lg-3 col-6">
-                    <div className="service-box pt-3 pb-3 mt-4 flex-mid">
-                        <i className="fal fa-credit-card"></i>
-                        <h5>Online payment</h5>
+                    <div className="col-lg-3 col-6">
+                        <div className="service-box pt-3 pb-3 mt-4 flex-mid">
+                            <i className="fal fa-credit-card"></i>
+                            <h5>Online payment</h5>
+                        </div>
                     </div>
                 </div>
             </div>

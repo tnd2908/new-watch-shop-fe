@@ -45,7 +45,7 @@ const ProductPage = () => {
                     <h2 className="text-white ">
                         {location.pathname.includes('men') && 'FOR MEN'}
                         {location.pathname.includes('women') && 'FOR WOMEN'}
-                        {location.pathname.includes('men' || 'women') == false && 'ALL PRODUCT'}
+                        {location.pathname.includes('men' || 'women') === false && 'ALL PRODUCT'}
                     </h2>
                 </div>
             </div>
@@ -68,7 +68,7 @@ const ProductPage = () => {
                                     <MenuLeft />
                                 </Drawer>
                             </div>
-                            {list.length == 0 && !loading && <h5 className="mt-2"> Found: 0  </h5>}
+                            {list.length === 0 && !loading && <h5 className="mt-2"> Found: 0  </h5>}
                         </div>
                         <div className="display-list">
                             <h6 style={{ marginRight: '20px' }}>Display: </h6>
@@ -85,7 +85,7 @@ const ProductPage = () => {
                         </div>
                         {loading ? <div className="flex-mid h-50vh">
                             <RiseLoader size={15} color={'gray'} margin={2} />
-                        </div> : type == "vertical" ? <ProductVerticalList list={list} /> : <ProductHorizontalList list={list} />}
+                        </div> : type === "vertical" ? <ProductVerticalList list={list} /> : <ProductHorizontalList list={list} />}
                         {!loading &&
                         <div className="w-100 flex-mid p-4">
                             <Pagination

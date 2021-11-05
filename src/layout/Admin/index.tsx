@@ -1,5 +1,5 @@
 import { Dropdown, Input, Menu } from "antd";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from '../../assets/logo-black.png'
 import { HomeOutlined, ContainerOutlined, AppstoreAddOutlined, TeamOutlined, IdcardOutlined, PlusOutlined } from '@ant-design/icons';
@@ -29,8 +29,6 @@ export const AdminPage = ({ url }: AdminProps) => {
         </>
     )
     const location = useLocation()
-    const [key, setKey] = useState(location.pathname)
-
     return (
         <div className="container-fluid">
             <div className="row">
@@ -38,7 +36,7 @@ export const AdminPage = ({ url }: AdminProps) => {
                     <Menu
                         className='mh-100'
                         style={{ width: 276 }}
-                        defaultSelectedKeys={[key]}
+                        defaultSelectedKeys={[location.pathname]}
                         defaultOpenKeys={['sub1', 'sub2', 'sub3']}
                         mode="inline"
                         theme="dark"

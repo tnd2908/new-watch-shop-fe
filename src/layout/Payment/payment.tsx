@@ -2,7 +2,7 @@ import React from 'react'
 import { Steps, Result, Button } from 'antd'
 import UserInforForm from '../Cart/Components/UserInforForm'
 import {  useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { State } from '../../redux'
 import { Link } from 'react-router-dom'
 const { Step } = Steps
@@ -15,7 +15,6 @@ const Payment = () => {
     const next = () =>{
         setCurrent(1)
     }
-    const dispatch = useDispatch()
     const steps = [
         {
             title: 'First step',
@@ -39,8 +38,8 @@ const Payment = () => {
                             ))}
                         </Steps>
                         <div className="steps-content">
-                            {current == 0 && <UserInforForm next={next} list={cart} total={total} delivery={delivery} />}
-                            {current == 1 && <div className="w-100 h-50vh flex-mid">
+                            {current === 0 && <UserInforForm next={next} list={cart} total={total} delivery={delivery} />}
+                            {current === 1 && <div className="w-100 h-50vh flex-mid">
                                 <Result
                                     status="success"
                                     title="Successfully Purchased Cloud Server ECS!"

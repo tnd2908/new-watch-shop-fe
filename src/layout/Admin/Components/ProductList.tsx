@@ -10,7 +10,7 @@ const ProductList = () =>{
         try {
             axios.get(`${API_URL}/product`)
                 .then(res=>{
-                    if(res.data.success == true){
+                    if(res.data.success === true){
                         setProductList(res.data.data)
                     }
                 })

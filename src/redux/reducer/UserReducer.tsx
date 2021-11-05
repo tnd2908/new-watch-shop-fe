@@ -1,19 +1,6 @@
-import * as React from 'react'
-import Cart from '../../layout/Cart/cart'
-interface IUser {
-    userInfor: {
-        firstName: string,
-        lastName: string,
-        phone: number,
-        gender: string,
-        userId?: string,
-        email: string,
-        ava: string,
-    },
-    auth: boolean,
-    cart: Array<any>,
-}
-const initialState: IUser ={
+import { IUSer } from '../../Util/spec'
+
+const initialState: IUSer ={
     userInfor: {
         firstName: '',
         lastName: '',
@@ -37,7 +24,8 @@ const userReducer = (state = initialState, action: Action) =>{
         }
         case "USER_LOGOUT":{
             const infor = {}
-            return {...state, userInfor: infor}
+            const authentication = false
+            return {...state, userInfor: infor, auth: authentication}
         }
         case "USER_LOGIN":{
             const authentication = true

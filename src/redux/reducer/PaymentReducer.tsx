@@ -1,4 +1,3 @@
-import * as React from 'react'
 interface IUser {
     userInfor: {
         name: string,

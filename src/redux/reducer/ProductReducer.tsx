@@ -1,14 +1,11 @@
-import * as React from 'react'
+import { Action } from "../../Util/spec"
 
 const initialState ={
     productHotList: [],
     productList: [],
     productNewList: []
 }
-type Action = {
-    type: string,
-    payload: any
-}
+
 const productReducer = (state = initialState, action: Action) =>{
     switch(action.type){
         case "SET_PRODUCT_LIST":{

@@ -45,7 +45,7 @@ const AddProductForm = () => {
                 }
             })
                 .then(res => {
-                    if (res.data.success == true) {
+                    if (res.data.success === true) {
                         Modal.success({
                             title: 'Success',
                             content: (
@@ -56,7 +56,7 @@ const AddProductForm = () => {
                             }
                         })
                     }
-                    else if (res.data.success == false) {
+                    else if (res.data.success === false) {
                         Modal.error({
                             title: 'Error',
                             content: (
