@@ -1,4 +1,4 @@
-import { Select, Result, Tooltip, notification, Modal } from 'antd'
+import { Select, Result, Tooltip, notification, Modal, Input, message } from 'antd'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,6 +12,7 @@ import { setDelivery, setTotal } from '../../redux/action/payment'
 import { removeFromLocalStorage } from '../../Util/function'
 import Payment from '../Payment/payment'
 import PayPal from './Components/PayPal'
+import { Vouncher } from '../../Util/spec'
 const { Option } = Select;
 
 const Cart = () => {
@@ -22,6 +23,16 @@ const Cart = () => {
     const [subTotal, setSubTotal] = useState(0)
     const [loading, setLoading] = useState(false) 
     const [render, setRender] = useState(false)
+    const [voucher, setVoucher] = useState<Vouncher>({
+        name: '',
+        discount: 0,
+        description: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        applyFor: 0,
+        code: ''
+    })
+    const [code, setCode] = useState<String>('')
     const dispatch = useDispatch()
     const getUserCart = () => {
         setLoading(true)
@@ -41,8 +52,8 @@ const Cart = () => {
                 .then(res => {
                     if (res.data.success === true) {
                         notification['success']({
-                            message: 'Remove success',
-                            description: 'Removed this item in your cart. Please check it out'
+                            message: 'Success',
+                            description: 'Removed item'
                         })
                         dispatch(remove(id))
                     }
@@ -55,11 +66,26 @@ const Cart = () => {
         }
         else {
             notification['success']({
-                message: 'Remove success',
-                description: 'Removed this item in your cart. Please check it out'
+                message: 'Success',
+                description: 'Removed item'
             })
             removeFromLocalStorage(id)
             dispatch(remove(id))
+        }
+    }
+    const applyVoucher = () =>{
+        try {
+            axios.post(`${API_URL}/voucher/${code}`, {total})
+                .then(res=>{
+                    if(res.data.success === true){
+                        message.success(res.data.message)
+                        setVoucher(res.data.data)
+                        dispatch(setTotal(total*(100-res.data.data.discount)/100))
+                    }
+                    else message.error(res.data.message)
+                })
+        } catch (error) {
+            console.log(error)
         }
     }
     useEffect(() => {
@@ -90,7 +116,7 @@ const Cart = () => {
     }, [userId])
     useEffect(()=>{
         window.scrollTo(0,0)
-    },[])
+    },[cart.lenght])
     return (
         <div className="container-fluid cart-page" style={{backgroundColor:'#f6f6f6'}}>
             <div className="container">
@@ -127,8 +153,8 @@ const Cart = () => {
                                                 <p className="text-dark"> {item.quantityInCart} </p>
                                             </div>
                                             <div className="btn-group">
-                                                <button onClick={() => { dispatch(decrease(item._id)); setRender(!render) }}><i className="fal fa-minus"></i></button>
-                                                <button onClick={() => { dispatch(increase(item._id)); setRender(!render) }}><i className="fal fa-plus"></i></button>
+                                                <button disabled={item.quantityInCart === 1} onClick={() => { dispatch(decrease(item._id)); setRender(!render) }}><i className="fal fa-minus"></i></button>
+                                                <button disabled={item.quantityInCart === item.quantity} onClick={() => { dispatch(increase(item._id)); setRender(!render) }}><i className="fal fa-plus"></i></button>
                                             </div>
                                             <Tooltip title='Remove item' placement="top">
                                                 <button onClick={() => removeItem(item._id)} className="remove-btn">
@@ -144,13 +170,13 @@ const Cart = () => {
                                     />}
                         </div>
                         <div className="col-xl-12 mt-3">
-                            <div className="delivery pt-3 pb-3 d-flex" style={{ backgroundColor: '#262626' }}>
+                            {/* <div className="delivery pt-3 pb-3 d-flex" style={{ backgroundColor: '#262626' }}>
                                 <i className="fal fa-crown text-white"></i>
                                 <div>
                                     <h5 className="text-white">PREMIER DELIVERY</h5>
                                     <p className="text-white">Get next-day delivery a whole year for only $15 </p>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div className="col-lg-4 pb-2 pt-3">
@@ -170,7 +196,7 @@ const Cart = () => {
                                 </div>
                                 <div className="select w-100">
                                     <Select defaultValue={0}
-                                        style={{ width: '100%', borderBottom: '1px solid silver' }}
+                                        style={{ width: '100%', borderBottom: '1px solid silver', marginBottom:'15px' }}
                                         size="large"
                                         bordered={false}
                                         onChange={(e) => dispatch(setDelivery(e))}
@@ -178,8 +204,9 @@ const Cart = () => {
                                         <Option value={0}>Standard Delivery (Free)</Option>
                                         <Option value={10}>Fast Delivery <b>($10)</b></Option>
                                     </Select>
-                                        <button disabled={total === 0} className="checkout-btn mb-3">USE VOUNCHER</button>
-                                    <PayPal list = {cart} total={total}/>
+                                    <Input disabled={total === 0 || voucher.code !== ''} name='code' size='large' placeholder='Voucher' onChange={(e)=>setCode(e.target.value)}/>
+                                        <button disabled={total === 0 || voucher.code !== ''} onClick={applyVoucher} className="checkout-btn mb-3">USE VOUNCHER</button>
+                                    <PayPal list = {cart} total={total} voucher={voucher.code} discount={voucher.discount}/>
                                 </div>
                             </div>
                         </div>
@@ -191,7 +218,7 @@ const Cart = () => {
                         <div className="row">
                             <div className="col-lg-12">
                                 <div className="delivery bg-white pt-3 pb-3 mt-3 d-flex shadow-sm">
-                                    <i className="fal fa-truck-loading "></i>
+                                    <i className="fal fa-truck-loading left-icon"></i>
                                     <div>
                                         <h5 >FREE STANDARD DELIVERY</h5>
                                         <p>Standard delivery options available to most cities for free</p>

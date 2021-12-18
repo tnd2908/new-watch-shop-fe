@@ -17,17 +17,14 @@ const paypalScriptOptions: PayPalScriptOptions = {
 };
 type Props = {
     list: [any],
-    total: number,
-    voucher?: string,
-    discount?: number
+    total: number
 }
-const PayPal = ({ list, total, voucher, discount }: Props) => {
+const PayPal = ({ list, total }: Props) => {
     const userId = useSelector((state: State) => state.user.userInfor.userId)
     const [productList, setProductList] = useState([])
     const delivery: any = useSelector((state: State) => state.payment.delivery)
     const [err,setErr] = useState(false)
     const [visible, setVisible] = useState(false)
-    const dispatch = useDispatch()
     useEffect(() => {
         if (list.length) {
             const arr: any = []
@@ -41,7 +38,7 @@ const PayPal = ({ list, total, voucher, discount }: Props) => {
             })
             setProductList(arr)
         }
-    }, [total, userId, list.length])
+    }, [total, userId])
     return (
         <>
             <Modal visible={visible} footer={null} onCancel={() => setVisible(false)}>
@@ -66,7 +63,7 @@ const PayPal = ({ list, total, voucher, discount }: Props) => {
                     <Result
                         status="error"
                         title="Submission Failed"
-                        subTitle="There are 0 item in your cart, please try again"
+                        subTitle="Please input your information"
                     />
                 </div>
             </Modal>
@@ -93,19 +90,19 @@ const PayPal = ({ list, total, voucher, discount }: Props) => {
                         total,
                         details: [...productList],
                         delivery,
-                        userId: userId && userId,
-                        discount,
-                        voucher: voucher && voucher
+                        userId: userId && userId
                     }
                     console.log(bill)
                     axios.post(`${API_URL}/bill/add`, bill)
                         .then(res => {
                             console.log(res.data)
                             if (res.data.success === true) {
-                                dispatch(setUserCart([]))
-                                if (!userId) {
-                                    localStorage.removeItem("cart")
-                                }
+                               Modal.success({
+                                title: 'Success',
+                                content: (
+                                    <p>Thanks for your payment</p>
+                                )
+                               })
                             }
                             else {
                                 Modal.error({

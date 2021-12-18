@@ -6,11 +6,10 @@ p{
 }
 body{
   background-color: #f8f9fa !important;
-  /* background-color: #262626 !important; */
 }
-// body.dark{
-//     background-color: #262626 !important;
-// }
+.mg-auto{
+  margin: 0 auto;
+}
 button{
   outline: none !important;
   &:focus{
@@ -228,6 +227,9 @@ p.text-btn{
   border-color: silver !important;
   outline: none !important;
 }
+.ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before{
+  display: none !important;
+}
 @media only screen and (min-width: 1200px){
   .component{
     padding-left: 140px;
@@ -244,7 +246,7 @@ p.text-btn{
 }
 @media only screen and (max-width: 672px){
   .component{
-    margin-top: 90px;
+    margin-top: 10px;
   }
   .component.all-product{
     margin-top: 0;

@@ -47,7 +47,7 @@ const RegisterForm = () => {
     }
     return (
         <div className="register-form">
-            <h3 style={{ fontWeight: 'normal' }} className="text-dark mt-2">Register new Account</h3>
+            <h3 style={{ fontWeight: 'normal' }} className="text-dark mt-2">Register New Account</h3>
             <Form
                 name="basic"
                 onFinish={onFinish}

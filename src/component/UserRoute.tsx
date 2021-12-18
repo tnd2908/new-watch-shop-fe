@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Redirect, Route } from "react-router-dom";
 const UserRoute = ({ ...rest }) => {
-    // const auth: boolean = useSelector((state: State) => state.user.auth)
-    const [auth, setAuth] = useState(false)
-    useEffect(()=>{
-        setAuth(true)
-    },[])
-    if(auth)
+    const userToken = localStorage.getItem("token")
+    window.scrollTo(0,0)
+    if(userToken)
     return (
         <Route {...rest}/>
     );

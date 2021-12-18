@@ -1,4 +1,4 @@
-import { Button, notification, Rate, Result } from 'antd';
+import { Button, notification, Rate, Result, Typography } from 'antd';
 import axios from 'axios';
 import React from 'react'
 import { useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import { addToLocalStorage } from '../../../Util/function';
 type ListProps = {
     list: [],
 }
+const {Paragraph}  = Typography
 const ProductHorizontalList = ({ list }: ListProps) => {
     const user = useSelector((state: State) => state.user.userInfor.userId)
     const addToCart = (item: any) => {
@@ -71,6 +72,9 @@ const ProductHorizontalList = ({ list }: ListProps) => {
                                     <h6 className="text-muted">Color: </h6>
                                     <p style={{ backgroundColor: ` ${item.color}` }} className="color-display"></p>
                                 </div>
+                                <Paragraph ellipsis={{rows: 2}} style={{color: 'silver'}}>
+                                    {item.description}
+                                </Paragraph>
                                 <Rate disabled defaultValue={4} />
                             </div>
                             <div className="product-action d-flex">

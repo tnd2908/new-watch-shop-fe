@@ -35,33 +35,23 @@ const ProductPage = () => {
     }
     useEffect(() => {
         getProductList()
-        window.scrollTo(0, 200)
+        window.scrollTo(0, 0)
     }, [location.pathname, location.search])
     return (
         <>
-            <div className="container-fluid product-banner" >
-                <img src="https://gshock.casio.com/content/casio/locales/sg/en/brands/gshock/g-news/editorials/2021/geek-culture-gsw-h1000/_jcr_content/root/responsivegrid/container_1689197747/teaser.casiocoreimg.jpeg/1625594780951/gsw-h1000-banner-1920x816px.jpeg" alt="" />
-                <div className="flex-mid h-100 product-banner-title">
-                    <h2 className="text-white ">
-                        {location.pathname.includes('men') && 'FOR MEN'}
-                        {location.pathname.includes('women') && 'FOR WOMEN'}
-                        {location.pathname.includes('men' || 'women') === false && 'ALL PRODUCT'}
-                    </h2>
-                </div>
-            </div>
-            <div className="container all-product">
+            <div className="container bg-white">
                 <div className="row">
                     <div className="menu-container">
                         <MenuLeft />
                     </div>
                     <div className="product-container">
                         <div className="w-100 pb-2 d-flex align-items-center justify-content-between" style={{ paddingLeft: '30px', paddingRight: '30px' }}>
-                            <Breadcrumb>
+                            {/* <Breadcrumb>
                                 <Breadcrumb.Item>Home</Breadcrumb.Item>
                                 <Breadcrumb.Item>
                                     <Link to="/product?page=1">Product</Link>
                                 </Breadcrumb.Item>
-                            </Breadcrumb>
+                            </Breadcrumb> */}
                             <div className="reponsive-menu">
                                 <Button onClick={() => setVisible(true)} type='primary' size='large'>Filter</Button>
                                 <Drawer visible={visible} onClose={() => setVisible(false)} width={300}>

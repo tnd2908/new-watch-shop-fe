@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Banner from './Components/Banner'
 import ProductList from '../../component/Common/ProductList'
 import axios from "axios";
@@ -12,10 +12,23 @@ import 'aos/dist/aos.css'
 import Aos from 'aos'
 import { Divider } from 'antd';
 import { Link } from 'react-router-dom';
+import { Statistic} from 'antd';
+import Voucher from './Components/Voucher';
+import { Vouncher } from '../../Util/spec';
+const { Countdown } = Statistic;
 const HomePage = () => {
     const dispatch = useDispatch()
     const productNewList: [] = useSelector((state: State) => state.product.productNewList)
     const productHotList: [] = useSelector((state: State) => state.product.productHotList)
+    const [voucher, setVoucher] = useState<[Vouncher]>([{
+        name: '',
+        discount: 0,
+        description: '',
+        startDate: new Date,
+        endDate: new Date,
+        applyFor: 0,
+        code: ''
+    }])
     const getProductList = () => {
         try {
             axios.get(`${API_URL}/product/status/New?page=1`)
@@ -42,12 +55,20 @@ const HomePage = () => {
             console.log(error)
         }
     }
-
+    const getVoucher = () =>{
+        axios.get(`${API_URL}/voucher`)
+            .then(res=>{
+                if(res.data.success === true){
+                    setVoucher(res.data.data)
+                }
+            })
+    }
     useEffect(() => {
         !productNewList.length && getProductList()
         !productHotList.length && getProductHotList()
+        getVoucher()
         window.scrollTo(0, 0)
-        Aos.init({ duration: 600 })
+        Aos.init({ duration: 800 })
     }, [])
     return (
         <div className="container-fluid component-top bg-white">
@@ -64,13 +85,18 @@ const HomePage = () => {
                         <img src={women} alt="" />
                         <h3>For Women</h3>
                     </Link>
-                    <div data-aos='fade-up' data-aos-offset={0} className="col-12 large-image mt-4">
+                    {/* <div data-aos='fade-up' data-aos-offset={0} className="col-12 large-image mt-4">
                         <img src="https://cdn.shopify.com/s/files/1/1902/9663/files/Casio_G-Shock_Collection_Banner_New_Version_1370x397_c7405c17-237d-49a4-b8eb-e3ae9399c3ad_2048x2048.png?v=1611714420" alt="" />
-                    </div>
+                    </div> */}
                 </div>
                 <div className="p-4">
                     <p data-aos='fade-up' data-aos-offset={0} style={{ fontSize: '18px', textAlign: 'center' }}>The most durable digital and analog-digital watches in the industry, trusted by military personnel, law enforcement, surfers and outdoor enthusiasts around the world.</p>
                 </div>
+            </div>
+            <div className="container-fluid">
+                <Voucher vouncher={voucher}/>
+            </div>
+            <div className="container" style={{ marginTop: '30px' }}>
                 <ProductList list={productNewList} title="New watches" max={5} />
                 <ProductList list={productHotList} title="Best selling" max={5} />
                 <div data-aos='fade-up' className="row story-container">

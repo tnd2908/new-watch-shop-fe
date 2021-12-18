@@ -1,4 +1,4 @@
-import {  notification, Result, Tooltip } from 'antd';
+import {  notification, Result, Tooltip, Typography} from 'antd';
 import axios from 'axios';
 import React from 'react'
 import { useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import { addToLocalStorage } from '../../../Util/function';
 type ListProps = {
     list: [],
 }
+const {Paragraph} = Typography
 const ProductVerticalList = ({ list }: ListProps) => {
     const user = useSelector((state: State) => state.user.userInfor.userId)
     const addToCart = (item: any) => {
@@ -53,11 +54,11 @@ const ProductVerticalList = ({ list }: ListProps) => {
         <div className="container-fluid product-vertical-list mt-3">
             <div className="row">
                 {list.length ? list.map((item: any) => (
-                    <div className="col-6 col-xl-4 pt-2 pb-2 box-item" key={item._id} >
+                    <div className="col-6 col-xl-4 col-lg-4 pt-2 pb-2 box-item" key={item._id} >
                         <div className="w-100">
-                            <div className="box-image">
+                            <div className="box-item-image">
                                 <Link to={`/product/${item.name}`}><img src={`${API_URL}/upload/${item.images[0]}`} alt="" className="pd-image" /></Link>
-                                <div className="box-behind flex-mid flex-column">
+                                <div className="box-item-behind flex-mid flex-column">
                                     <Tooltip placement="left" title="Add to favourite">
                                         <button><i className="fal fa-heart"></i></button>
                                     </Tooltip>
@@ -78,13 +79,16 @@ const ProductVerticalList = ({ list }: ListProps) => {
                                     </div> : <></>
                                 }
                             </div>
-                            <div className="box-header">
+                            <div className="box-item-header">
                                 <h6 className="text-muted">Color: </h6>
                                 {item.color.includes(',') ? <p style={{ backgroundImage: `linear-gradient(150deg, ${item.color} 65%)` }}></p>
                                     : <p style={{ backgroundColor: ` ${item.color}` }}></p>}
                             </div>
-                            <div className="box-body">
+                            <div className="box-item-body">
                                 <Link to={`/product/${item._id}`}><h5> {item.name} </h5></Link>
+                                <Paragraph ellipsis={{rows:1}} style={{color: 'gray', margin:'5px 0'}}>
+                                    {item.description}
+                                </Paragraph>
                                 {item.saleOf !== 0 ?
                                     <div className="d-flex align-items-end">
                                         <h6 className="new-price"> ${item.price * (100 - item.saleOf) / 100} </h6>

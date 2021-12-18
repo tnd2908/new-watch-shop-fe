@@ -11,6 +11,7 @@ import DetailPage from './layout/Detail/detail';
 import Cart from './layout/Cart/cart';
 import Loading from './component/Loading/Loading';
 import UserRoute from './component/UserRoute';
+import User from './layout/User';
 const HomePage = lazy(() => {
 	return Promise.all([
 		import('./layout/Home/home'),
@@ -32,6 +33,8 @@ const App = () => {
 						<ProtectedRoute exact path="/admin/products" render={() => <AdminPage url="products" />} />
 						<ProtectedRoute exact path="/admin/add-category" render={() => <AdminPage url="add-category" />} />
 						<ProtectedRoute exact path="/admin/add-color" render={() => <AdminPage url="add-color" />} />
+						<ProtectedRoute exact path="/admin/vouncher" render={() => <AdminPage url="vouncher" />} />
+						<ProtectedRoute exact path="/admin/order" render={() => <AdminPage url="order" />} />
 						<Route exact path="/login" render={() => <AuthPage form="login" />} />
 						<Route exact path="/register" render={() => <AuthPage form="register" />} />
 						<Route exact path="/" component={HomePage} />
@@ -39,7 +42,9 @@ const App = () => {
 						<Route exact path="/product" component={ProductPage} />
 						<Route exact path="/product/men/:category" component={ProductPage} />
 						<Route exact path="/cart" component={Cart} />
-						<UserRoute exact path="/user" component={Cart}/>
+						<UserRoute exact path="/user" render={()=> <User url="user"/>}/>
+						<UserRoute exact path="/user/history" render={()=> <User url="history"/>}/>
+						<UserRoute exact path="/user/gift" render={()=> <User url="gift"/>}/>
 					</Switch>
 				<Footer />
 			</Suspense>

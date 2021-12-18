@@ -9,6 +9,6 @@ export const ProtectedRoute = ({...rest}) =>{
     return(
         <Route {...rest}/>
     );
-    else return <Redirect to = "/login-admin"/>
+    else return <Redirect to = "/login"/>
 }
 export default ProtectedRoute

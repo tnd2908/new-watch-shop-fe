@@ -23,7 +23,7 @@ const Option = () => {
     return (
         <div className="bg-white user-option shadow">
             <h5>Option</h5>
-            <p><i className="fal fa-id-card-alt left-icon"></i>User Profile </p>
+            <Link to="/user"><p><i className="fal fa-id-card-alt left-icon"></i>User Profile </p></Link>
             <p onClick={() => logout()}><i className="fal fa-sign-out-alt left-icon"></i>Logout</p>
         </div>
     );
@@ -66,16 +66,12 @@ const Navbar = () => {
         else return
     }
     useEffect(() => {
-        if(localStorage.getItem('theme') === 'dark'){
-            document.body.classList.add("dark")
+        if (user.userId){
+            setAva(user.lastName.charAt(0) + user.firstName.charAt(0))
         }
-    }, [localStorage.getItem('theme')])
-    useEffect(() => {
-        if (user.userId)
-            return
         else
             getUserInfor()
-    }, [auth])
+    }, [auth, ava])
     if (location.pathname.startsWith('/admin'))
         return <></>
     else

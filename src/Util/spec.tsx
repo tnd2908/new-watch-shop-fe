@@ -15,6 +15,7 @@ export interface Detail {
     comment: [],
     quantity: number,
     saleOf: number,
+    saled: number
 }
 export interface IUSer {
     userInfor: {
@@ -32,8 +33,39 @@ export interface IUSer {
 export type Params = {
     id?: string;
     productName?: string;
+    name?: string;
 };
 export type Action = {
     type: string,
     payload: any
+}
+export type Order = {
+    status: string,
+    createAt?: Date,
+    total: number,
+    name: string,
+    phone: number,
+    _id?: string,
+    details: [
+        {
+            productId: string,
+            quantityInCart: number,
+            cost: number,
+            productName: String,
+        }
+    ],
+    address: string,
+    delivery: number,
+    email: string,
+    userId?: string,
+    discount: number
+}
+export type Vouncher = {
+    name: string,
+    code: string,
+    startDate: Date,
+    endDate: Date,
+    applyFor: number,
+    discount: number,
+    description: string
 }

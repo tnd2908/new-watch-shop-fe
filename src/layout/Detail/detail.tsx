@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { API_URL } from '../../API/API';
-import '../../styles/product.css'
+import '../../styles/product.scss'
 import { Button, Divider, Modal, Skeleton, Form, Collapse, Alert, Rate, Tabs } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons'
 import SkeletonInput from 'antd/lib/skeleton/Input';
@@ -14,6 +14,7 @@ import Aos from 'aos'
 import Review from './Components/Review';
 import { Detail, Params } from '../../Util/spec';
 import Image from './Components/Image';
+import PaymentForm from './Components/PaymentForm';
 SwiperCore.use([Navigation])
 const { Panel } = Collapse
 const { TabPane } = Tabs;
@@ -28,6 +29,7 @@ const DetailPage = () => {
     const history = useHistory()
     const [render, setRender] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [visible, setVisible] = useState(false)
     const [detail, setDetail] = useState<Detail>({
         _id: '',
         name: '',
@@ -44,7 +46,8 @@ const DetailPage = () => {
         material: '',
         comment: [],
         quantity: 0,
-        saleOf: 0
+        saleOf: 0,
+        saled: 0
     })
     const [countStar, setCountStar] = useState({
         oneStar: 0,
@@ -89,6 +92,9 @@ const DetailPage = () => {
                 history.push('/login')
             }
         })
+    }
+    const handlePayment = () =>{
+        setVisible(true)
     }
     const getDetail = () => {
         setCountStar({
@@ -170,7 +176,10 @@ const DetailPage = () => {
                             : <Skeleton active />}
                     </div>
                     <div className="detail-button">
-                        <Button size="large" type="primary" style={{ width: '100%' }}>Buy now</Button>
+                        <Modal footer={null} title='Payment' width={600} visible={visible} onCancel={()=>setVisible(false)}>
+                            <PaymentForm total= {detail.price} list={[detail]} />
+                        </Modal>
+                        <Button onClick={handlePayment} size="large" type="primary" style={{ width: '100%' }}>Buy now</Button>
                         <Button size="large" type="ghost" style={{ width: '100%' }} className="ml-2">Add to cart</Button>
                     </div>
                     <div className="detail-service mb-4">
@@ -190,11 +199,11 @@ const DetailPage = () => {
                             </Panel>
                         </Collapse>
                     </div>
-                    <Alert
+                    {/* <Alert
                         message="Success Text"
                         description="Success Description Success Description Success Description"
                         type="success"
-                    />
+                    /> */}
                 </div>
             </div>
             <div className="row pt-5 mb-5 pb-3 bg-white" data-aos='fade-up'>

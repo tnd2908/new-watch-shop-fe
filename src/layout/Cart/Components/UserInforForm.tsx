@@ -29,7 +29,8 @@ const UserInforForm = ({ list, total, delivery, next }: UserInforFormProps) => {
                 arr.push({ 
                     productId: item._id, 
                     quantityInCart: item.quantityInCart, 
-                    cost: item.saleOf? item.price * (100 - item.saleOf)/100 : item.price 
+                    cost: item.saleOf? item.price * (100 - item.saleOf)/100 : item.price,
+                    productName: item.name
                 })
             })
             setProductList(arr)

@@ -16,10 +16,10 @@ type ListProps = {
 
 const ProductList = ({ list, title, hideTitle, max }: ListProps) => {
     useEffect(() => {
-        Aos.init({ duration: 600 })
+        Aos.init({ duration: 800 })
     }, [])
     return (
-        <div data-aos='fade-right' data-aos-offset={160} className="container-fluid pt-3 pb-2">
+        <div data-aos='fade-right' data-aos-offset={200} className="container-fluid pt-3 pb-2" style={{padding: 0}}>
             <div className="title">
                 {!hideTitle && <h2> {title} </h2>}
                 <div className="button-container">

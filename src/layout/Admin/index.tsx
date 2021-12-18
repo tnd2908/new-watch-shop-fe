@@ -2,14 +2,16 @@ import { Dropdown, Input, Menu } from "antd";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from '../../assets/logo-black.png'
-import { HomeOutlined, ContainerOutlined, AppstoreAddOutlined, TeamOutlined, IdcardOutlined, PlusOutlined } from '@ant-design/icons';
-import '../../styles/admin.css'
+import { HomeOutlined, ContainerOutlined, AppstoreAddOutlined, TeamOutlined, IdcardOutlined, PlusOutlined, TagsOutlined, SnippetsOutlined } from '@ant-design/icons';
+import '../../styles/admin.scss'
 import AddProductForm from "./Components/AddProductForm";
 import AddCategory from "./Components/AddCategory";
 import AddColor from "./Components/AddColor";
 import ProductList from "./Components/ProductList";
 import EditProductForm from "./Components/EditProductForm";
 import OrderList from "./Components/OrderList";
+import AddVouncher from "./Components/AddVouncher";
+import AllOrder from "./Components/AllOrder";
 
 const { SubMenu } = Menu
 interface AdminProps {
@@ -25,6 +27,8 @@ export const AdminPage = ({ url }: AdminProps) => {
             {url === 'add-color' && <AddColor />}
             {url === 'products' && <ProductList />}
             {url === 'edit-product' && <EditProductForm />}
+            {url === 'vouncher' && <AddVouncher />}
+            {url === 'order' && <AllOrder/>}
             {!url && <OrderList/>}
         </>
     )
@@ -34,8 +38,8 @@ export const AdminPage = ({ url }: AdminProps) => {
             <div className="row">
                 <div className="d-flex">
                     <Menu
+                        style={{ width: 256 }}
                         className='mh-100'
-                        style={{ width: 276 }}
                         defaultSelectedKeys={[location.pathname]}
                         defaultOpenKeys={['sub1', 'sub2', 'sub3']}
                         mode="inline"
@@ -47,7 +51,7 @@ export const AdminPage = ({ url }: AdminProps) => {
                         <Menu.Item icon={<HomeOutlined/>} key="/admin">
                             <Link to="/admin">Home</Link>
                         </Menu.Item>
-                        <SubMenu key="sub1" title="Product management">
+                        <SubMenu key="sub1" title="Product">
                             <Menu.Item icon={<ContainerOutlined />} key="/admin/products">
                                 <Link to="/admin/products">All product</Link>
                             </Menu.Item>
@@ -61,7 +65,13 @@ export const AdminPage = ({ url }: AdminProps) => {
                                 <Link to="/admin/add-color">Add new color</Link>
                             </Menu.Item>
                         </SubMenu>
-                        <SubMenu key="sub2" title="Account management">
+                        <Menu.Item icon={<TagsOutlined/>} key="/vouncher">
+                            <Link to="/admin/vouncher">Vouncher</Link>
+                        </Menu.Item>
+                        <Menu.Item icon={<SnippetsOutlined/>} key="/order">
+                            <Link to="/admin/order">Order</Link>
+                        </Menu.Item>
+                        <SubMenu key="sub2" title="Account">
                             <Menu.Item icon={<TeamOutlined />} key="/admin/users">
                                 <Link to="/admin/user">All users</Link>
                             </Menu.Item>
@@ -77,7 +87,7 @@ export const AdminPage = ({ url }: AdminProps) => {
                         </SubMenu>
                     </Menu>
                     <div className="w-100">
-                        <div className="container-fluid shadow p-15">
+                        <div className="container-fluid shadow bg-white p-15">
                             <div className="row">
                                 <div className="d-flex justify-content-between" style={{padding: '0 40px'}}>
                                     <Search placeholder="Input here" style={{maxWidth: '400px'}} size="large" />
