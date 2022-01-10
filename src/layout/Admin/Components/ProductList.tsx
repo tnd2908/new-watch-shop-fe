@@ -33,7 +33,7 @@ const ProductList = () =>{
                 <Column title="Action" key="action" width="160px"
                     render={action => (
                         <div className="d-flex">
-                            <button className="admin-btn-detail">Detail</button>
+                            <button className="admin-btn-detail-product">Detail</button>
                             <Link to={`/admin/product/edit-product/${action.name}`}><button className="admin-btn-edit">Edit</button></Link>
                         </div>
                     )} />

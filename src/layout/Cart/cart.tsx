@@ -12,7 +12,8 @@ import { setDelivery, setTotal } from '../../redux/action/payment'
 import { removeFromLocalStorage } from '../../Util/function'
 import Payment from '../Payment/payment'
 import PayPal from './Components/PayPal'
-import { Vouncher } from '../../Util/spec'
+import { CartItem, Vouncher } from '../../Util/spec'
+import { CustomerBill, NormalItem, SaleOffItem } from '../../Strategy/strategy'
 const { Option } = Select;
 
 const Cart = () => {
@@ -21,7 +22,7 @@ const Cart = () => {
     const total: any = useSelector((state: State) => state.payment.total)
     const delivery: any = useSelector((state: State) => state.payment.delivery)
     const [subTotal, setSubTotal] = useState(0)
-    const [loading, setLoading] = useState(false) 
+    const [loading, setLoading] = useState(false)
     const [render, setRender] = useState(false)
     const [voucher, setVoucher] = useState<Vouncher>({
         name: '',
@@ -73,14 +74,14 @@ const Cart = () => {
             dispatch(remove(id))
         }
     }
-    const applyVoucher = () =>{
+    const applyVoucher = () => {
         try {
-            axios.post(`${API_URL}/voucher/${code}`, {total})
-                .then(res=>{
-                    if(res.data.success === true){
+            axios.post(`${API_URL}/voucher/${code}`, { total })
+                .then(res => {
+                    if (res.data.success === true) {
                         message.success(res.data.message)
                         setVoucher(res.data.data)
-                        dispatch(setTotal(total*(100-res.data.data.discount)/100))
+                        dispatch(setTotal(total * (100 - res.data.data.discount) / 100))
                     }
                     else message.error(res.data.message)
                 })
@@ -90,15 +91,21 @@ const Cart = () => {
     }
     useEffect(() => {
         if (cart.length >= 1) {
-            let totalPrice = 0
-            cart.map((item: any) => {
-                if(item.saleOf !== 0)
-                return totalPrice += item.price * item.quantityInCart * (100 - item.saleOf)/100
-                else
-                return totalPrice += item.price * item.quantityInCart
+            const normal = new NormalItem()
+            const sale = new SaleOffItem()
+            const strategy = new CustomerBill(normal)
+            cart.map((item: CartItem) => {
+                if (item.saleOf !== 0) {
+                    strategy.item = sale
+                    strategy.addToCart(item.quantityInCart, item.price, item.saleOf)
+                }
+                else {
+                    strategy.item = normal
+                    strategy.addToCart(item.quantityInCart, item.price)
+                }
             })
-            setSubTotal(totalPrice)
-            dispatch(setTotal(totalPrice + delivery))
+            setSubTotal(strategy.getTotal())
+            dispatch(setTotal(strategy.getTotal() + delivery))
         }
         else {
             (dispatch(setTotal(0)))
@@ -106,7 +113,7 @@ const Cart = () => {
         }
     }, [cart.length, delivery, render])
     const setCart = () => {
-        if ( localStorage.getItem('cart')?.length)
+        if (localStorage.getItem('cart')?.length)
             dispatch(setUserCart(JSON.parse(localStorage.getItem('cart')!)))
         else return
     }
@@ -114,11 +121,11 @@ const Cart = () => {
         userId && getUserCart()
         !userId && setCart()
     }, [userId])
-    useEffect(()=>{
-        window.scrollTo(0,0)
-    },[cart.lenght])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [cart.lenght])
     return (
-        <div className="container-fluid cart-page" style={{backgroundColor:'#f6f6f6'}}>
+        <div className="container-fluid cart-page" style={{ backgroundColor: '#f6f6f6' }}>
             <div className="container">
                 <div className="row">
                     <div className="col-lg-8 pt-3 ">
@@ -144,7 +151,7 @@ const Cart = () => {
                                             </div>
                                         </div>
                                         <div className="col-6 col-md-4 pl-2 pr-2">
-                                            {item.saleOf !== 0 ? <h4 className="text-danger"> ${item.price * (100-item.saleOf)/100} </h4>:
+                                            {item.saleOf !== 0 ? <h4 className="text-danger"> ${item.price * (100 - item.saleOf) / 100} </h4> :
                                                 <h4 className="text-red"> ${item.price} </h4>
                                             }
                                             <h5> {item.name} </h5>
@@ -196,7 +203,7 @@ const Cart = () => {
                                 </div>
                                 <div className="select w-100">
                                     <Select defaultValue={0}
-                                        style={{ width: '100%', borderBottom: '1px solid silver', marginBottom:'15px' }}
+                                        style={{ width: '100%', borderBottom: '1px solid silver', marginBottom: '15px' }}
                                         size="large"
                                         bordered={false}
                                         onChange={(e) => dispatch(setDelivery(e))}
@@ -204,9 +211,9 @@ const Cart = () => {
                                         <Option value={0}>Standard Delivery (Free)</Option>
                                         <Option value={10}>Fast Delivery <b>($10)</b></Option>
                                     </Select>
-                                    <Input disabled={total === 0 || voucher.code !== ''} name='code' size='large' placeholder='Voucher' onChange={(e)=>setCode(e.target.value)}/>
-                                        <button disabled={total === 0 || voucher.code !== ''} onClick={applyVoucher} className="checkout-btn mb-3">USE VOUNCHER</button>
-                                    <PayPal list = {cart} total={total} voucher={voucher.code} discount={voucher.discount}/>
+                                    <Input disabled={total === 0 || voucher.code !== ''} name='code' size='large' placeholder='Voucher' onChange={(e) => setCode(e.target.value)} />
+                                    <button disabled={total === 0 || voucher.code !== ''} onClick={applyVoucher} className="checkout-btn mb-3">USE VOUNCHER</button>
+                                    <PayPal list={cart} total={total} voucher={voucher.code} discount={voucher.discount} />
                                 </div>
                             </div>
                         </div>

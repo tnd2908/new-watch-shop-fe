@@ -13,6 +13,7 @@ const AllOrder = () => {
     const [orderList, setOrderList] = useState([])
     const [visible, setVisible] = useState(false)
     const [isVisible, setIsVisible] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const [order, setOrder] = useState<Order>({
         status: 'Waiting',
         total: 0,
@@ -34,8 +35,10 @@ const AllOrder = () => {
         try {
             axios.get(`${API_URL}/bill`)
                 .then(res => {
+                    console.log(res.data)
                     if (res.data.success === true) {
                         setOrderList(res.data.data)
+                        setIsLoading(false)
                     }
                 })
         } catch (error) {
@@ -43,15 +46,19 @@ const AllOrder = () => {
         }
     }
     const filterList = (data: string) => {
+        setIsLoading(true)
         if (data === 'all') {
             getOrder()
         }
-        axios.get(`${API_URL}/bill/status/${data}`)
+        else{
+            axios.get(`${API_URL}/bill/status/${data}`)
             .then(res => {
                 if (res.data.success === true) {
                     setOrderList(res.data.data)
+                    setIsLoading(false)
                 }
             }).catch((err) => console.log(err))
+        }
     }
     const confirm = (status : string) => {
         const data = {
@@ -83,11 +90,11 @@ const AllOrder = () => {
                     <Radio.Button value="Done">Done</Radio.Button>
                 </Radio.Group>
             </div>
-            <Modal className="modal-order" footer={null} width={450} visible={visible} onCancel={() => setVisible(false)} closable={true}>
+            <Modal className="modal-order" footer={null} width={450} visible={visible} onCancel={() => {setVisible(false); setIsVisible(false)}} closable={true}>
                 <Bill order={order} />
                 {order.status === 'Waiting' &&
                     <div className="d-flex justify-content-end mt-3">
-                        <Button style={{ marginRight: '10px' }} size='large' type="default">Deny</Button>
+                        <Button onClick={() => setIsVisible(false)} style={{ marginRight: '10px' }} size='large' type="default">Deny</Button>
                         <Popconfirm
                             title="Do you want to accept this order?"
                             visible={isVisible}
@@ -100,7 +107,7 @@ const AllOrder = () => {
                         </Popconfirm>
                     </div>}
             </Modal>
-            <Table className="mt-2" dataSource={orderList} bordered>
+            <Table className="mt-2" dataSource={orderList} bordered loading={isLoading}>
                 <Column title="Customer name" dataIndex="name" key="name" ellipsis={true} />
                 <Column title="Total" key="total" render={data => (
                     <span>${new Intl.NumberFormat().format(data.total)}</span>
@@ -126,12 +133,20 @@ const AllOrder = () => {
                 <Column title="Date" key="createAt" render={date => (
                     <span> {moment(date.createAt).format('HH:mm DD/MM/YYYY')} </span>
                 )} />
-                <Column title="Action" key="action" width="90px"
-                    render={(data) => (
-                        <div className="d-flex">
-                            <button className="admin-btn-detail" onClick={() => showDetail(data)} >Detail</button>
-                        </div>
-                    )} />
+                <Column title="Action" key="action" width="120px"
+                    render={(data) => {
+                        if(data.status === "Waiting")
+                        return (
+                            <div className="d-flex">
+                                <span className="admin-btn-detail flex-mid" onClick={() => showDetail(data)} >Detail</span>
+                            </div>
+                        )
+                        else return (
+                            <div className="d-flex">
+                                <button className="admin-btn-confirm" onClick={() => showDetail(data)} >Accept</button>
+                            </div>
+                        )
+                    }} />
             </Table>
         </div>
     );

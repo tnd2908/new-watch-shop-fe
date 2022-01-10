@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../../API/API";
 import { setUserCart } from "../../../redux/action/user";
+import { Detail } from "../../../Util/spec";
 const paypalScriptOptions: PayPalScriptOptions = {
     "client-id":
         "AZ6P1Hr6TdK9BcDuIxf6WkDmUrbdRVGoGVl0KMGYCmvpvPxp9RFdbu8G1TPQ9TmTg0SbOUSvf1i80wnX",
@@ -16,7 +17,7 @@ const paypalScriptOptions: PayPalScriptOptions = {
     locale: "en_US"
 };
 type Props = {
-    list: [any],
+    list: Array<Detail>,
     total: number
 }
 const PayPal = ({ list, total }: Props) => {
@@ -28,10 +29,10 @@ const PayPal = ({ list, total }: Props) => {
     useEffect(() => {
         if (list.length) {
             const arr: any = []
-            list.map((item: any) => {
+            list.map((item: Detail) => {
                 arr.push({
                     productId: item._id,
-                    quantityInCart: item.quantityInCart,
+                    quantityInCart: 1,
                     cost: item.saleOf ? item.price * (100 - item.saleOf) / 100 : item.price,
                     productName: item.name
                 })

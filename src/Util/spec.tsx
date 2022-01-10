@@ -28,7 +28,7 @@ export interface IUSer {
         ava: string,
     },
     auth: boolean,
-    cart: Array<any>,
+    cart?: Array<CartItem>,
 }
 export type Params = {
     id?: string;
@@ -39,6 +39,12 @@ export type Action = {
     type: string,
     payload: any
 }
+export type OrderItem = {
+    productId: string,
+    quantityInCart: number,
+    cost: number,
+    productName: String,
+}
 export type Order = {
     status: string,
     createAt?: Date,
@@ -46,14 +52,7 @@ export type Order = {
     name: string,
     phone: number,
     _id?: string,
-    details: [
-        {
-            productId: string,
-            quantityInCart: number,
-            cost: number,
-            productName: String,
-        }
-    ],
+    details: [OrderItem],
     address: string,
     delivery: number,
     email: string,
@@ -69,3 +68,13 @@ export type Vouncher = {
     discount: number,
     description: string
 }
+export type CartItem = {
+   _id: string,
+    name: string,
+    quantity: number,
+    images: string,
+    saleOf: number,
+    price: number,
+    quantityInCart: number
+}
+export type CartList = [CartItem]

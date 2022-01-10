@@ -38,7 +38,7 @@ const userReducer = (state = initialState, action: Action) =>{
         case "INCREASE_QUANTITY":{
             const productId = action.payload
             const arr: any = []
-            state.cart.forEach((item)=>{
+            state.cart!.forEach((item)=>{
                 if(item._id === productId){
                     arr.push({...item, quantityInCart: item.quantityInCart + 1})
                 }
@@ -49,7 +49,7 @@ const userReducer = (state = initialState, action: Action) =>{
         case "DECREASE_QUANTITY":{
             const productId = action.payload
             const arr: any = []
-            state.cart.forEach((item)=>{
+            state.cart!.forEach((item)=>{
                 if(item._id === productId){
                     arr.push({...item, quantityInCart: item.quantityInCart - 1})
                 }
@@ -59,7 +59,7 @@ const userReducer = (state = initialState, action: Action) =>{
         }
         case "REMOVE_ITEM":{
             const productId = action.payload
-            const array = state.cart.filter((item)=>{
+            const array = state.cart!.filter((item)=>{
                 if(item._id !== productId){
                     return item
                 }

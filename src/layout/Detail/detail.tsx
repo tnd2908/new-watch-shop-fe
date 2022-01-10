@@ -177,7 +177,7 @@ const DetailPage = () => {
                     </div>
                     <div className="detail-button">
                         <Modal footer={null} title='Payment' width={600} visible={visible} onCancel={()=>setVisible(false)}>
-                            <PaymentForm total= {detail.price} list={[detail]} />
+                            <PaymentForm total= {detail.price} list={[detail]} closeForm={()=>setVisible(false)}/>
                         </Modal>
                         <Button onClick={handlePayment} size="large" type="primary" style={{ width: '100%' }}>Buy now</Button>
                         <Button size="large" type="ghost" style={{ width: '100%' }} className="ml-2">Add to cart</Button>

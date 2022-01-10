@@ -54,21 +54,21 @@ const OrderList = () => {
         setOrder(detail)
         setVisible(true)
     }
-    const confirm = (status : string) => {
+    const confirm = (status: string) => {
         const data = {
             id: order._id,
             details: order.details,
             status
         }
         axios.put(`${API_URL}/bill/update`, data)
-            .then(res=>{
-                if(res.data.success === true){
+            .then(res => {
+                if (res.data.success === true) {
                     setIsVisible(false)
                     setVisible(false)
                     message.success(res.data.message)
                     window.location.href = '/admin'
                 }
-            }).catch((err)=>message.error('Error, please try again'))
+            }).catch((err) => message.error('Error, please try again'))
     }
     return (
         <div className="container-fluid pt-4">
@@ -153,20 +153,20 @@ const OrderList = () => {
             <div className="row mt-4">
                 <div className="col-md-8">
                     <div className="bg-white p-2">
-                        <Modal className="modal-order" footer={null} width={450} visible={visible} onCancel={() => setVisible(false)} closable={true}>
+                        <Modal className="modal-order" footer={null} width={450} visible={visible} onCancel={() => {setVisible(false); setIsVisible(false)}} closable={true}>
                             <Bill order={order} />
                             {order.status === 'Waiting' &&
                                 <div className="d-flex justify-content-end mt-3">
-                                    <Button style={{ marginRight: '10px' }} size='large' type="default">Deny</Button>
+                                    <Button onClick={() => console.log(111)} style={{ marginRight: '10px' }} size='large' type="default">Deny</Button>
                                     <Popconfirm
                                         title="Do you want to accept this order?"
                                         visible={isVisible}
-                                        onConfirm={()=>confirm('In progress')}
+                                        onConfirm={() => confirm('In progress')}
                                         onCancel={() => setIsVisible(false)}
                                         okText="Ok"
                                         cancelText="Cancle"
                                     >
-                                        <Button onClick={()=>setIsVisible(true)} size='large' type="primary">Accept</Button>
+                                        <Button onClick={() => setIsVisible(true)} size='large' type="primary">Accept</Button>
                                     </Popconfirm>
                                 </div>}
                         </Modal>
@@ -197,12 +197,20 @@ const OrderList = () => {
                             <Column title="Date" key="createAt" render={date => (
                                 <span> {moment(date.createAt).format('HH:mm DD/MM/YYYY')} </span>
                             )} />
-                            <Column title="Action" key="action" width="90px"
-                                render={(data) => (
-                                    <div className="d-flex">
-                                        <button className="admin-btn-detail" onClick={() => showDetail(data)}>Detail</button>
-                                    </div>
-                                )} />
+                            <Column title="Action" key="action" width="110px"
+                                render={(data) => {
+                                    if (data.status === "Waiting")
+                                        return (
+                                            <div className="d-flex">
+                                                <span className="admin-btn-detail flex-mid" onClick={() => showDetail(data)} >Detail</span>
+                                            </div>
+                                        )
+                                    else return (
+                                        <div className="d-flex">
+                                            <button className="admin-btn-confirm" onClick={() => showDetail(data)} >Accept</button>
+                                        </div>
+                                    )
+                                }} />
                         </Table>
                     </div>
                 </div>
@@ -211,7 +219,7 @@ const OrderList = () => {
                         <h5 className="mb-3 mt-3">Recent Customer</h5>
                         <Table dataSource={orderList} bordered>
                             <Column width={70} title="Total" key="total" render={() => (
-                                <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
+                                <Avatar style={{height: '35px'}} src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
                             )} />
                             <Column title="Name" dataIndex="name" key="name" ellipsis={true} />
                             <Column title="Email" dataIndex="email" key="email" ellipsis={true} />
