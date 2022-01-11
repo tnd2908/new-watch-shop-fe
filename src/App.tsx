@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import './App.scss';
 import 'antd/dist/antd.less'
+import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom'
 import { AdminPage } from './layout/Admin';
 import ProtectedRoute from './component/ProtectedRoute';
@@ -12,6 +13,7 @@ import Cart from './layout/Cart/cart';
 import Loading from './component/Loading/Loading';
 import UserRoute from './component/UserRoute';
 import User from './layout/User';
+import News from './layout/News';
 const HomePage = lazy(() => {
 	return Promise.all([
 		import('./layout/Home/home'),
@@ -35,6 +37,7 @@ const App = () => {
 						<ProtectedRoute exact path="/admin/add-color" render={() => <AdminPage url="add-color" />} />
 						<ProtectedRoute exact path="/admin/vouncher" render={() => <AdminPage url="vouncher" />} />
 						<ProtectedRoute exact path="/admin/order" render={() => <AdminPage url="order" />} />
+						<ProtectedRoute exact path="/admin/new/action" render={() => <AdminPage url="new" />} />
 						<Route exact path="/login" render={() => <AuthPage form="login" />} />
 						<Route exact path="/register" render={() => <AuthPage form="register" />} />
 						<Route exact path="/" component={HomePage} />
@@ -42,6 +45,7 @@ const App = () => {
 						<Route exact path="/product" component={ProductPage} />
 						<Route exact path="/product/men/:category" component={ProductPage} />
 						<Route exact path="/cart" component={Cart} />
+						<Route exact path="/news/:id" component={News}/>
 						<UserRoute exact path="/user" render={()=> <User url="user"/>}/>
 						<UserRoute exact path="/user/history" render={()=> <User url="history"/>}/>
 						<UserRoute exact path="/user/gift" render={()=> <User url="gift"/>}/>

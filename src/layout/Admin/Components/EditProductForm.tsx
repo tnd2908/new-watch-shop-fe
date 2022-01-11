@@ -171,7 +171,7 @@ const EditProductForm = () => {
                             </Form.Item>
                         </div>
                         <div className="relative" style={{ position: 'relative', width: '100%' }}>
-                            {showColorPicker && <ChromePicker color={colors} onChange={e => { setColors(e.hex); form.setFieldsValue({ ...form, color: colors }) }} />}
+                            {showColorPicker && <ChromePicker color={colors} onChange={(e: any) => { setColors(e.hex); form.setFieldsValue({ ...form, color: colors }) }} />}
                             <span onClick={() => setShowColorPicker(!showColorPicker)} className="show-picker">
                                 {showColorPicker ? <span><i className="fal fa-minus-circle" style={{ marginRight: '5px' }}></i>Close</span>
                                     : <Tooltip title="Get the color code here" placement="top">

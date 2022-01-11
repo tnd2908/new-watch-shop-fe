@@ -12,6 +12,7 @@ import EditProductForm from "./Components/EditProductForm";
 import OrderList from "./Components/OrderList";
 import AddVouncher from "./Components/AddVouncher";
 import AllOrder from "./Components/AllOrder";
+import NewsAction from "./Components/NewsAction";
 
 const { SubMenu } = Menu
 interface AdminProps {
@@ -20,18 +21,33 @@ interface AdminProps {
 const { Search } = Input;
 
 export const AdminPage = ({ url }: AdminProps) => {
-    const body = (
-        <>
-            {url === 'add-product' && <AddProductForm />}
-            {url === 'add-category' && <AddCategory />}
-            {url === 'add-color' && <AddColor />}
-            {url === 'products' && <ProductList />}
-            {url === 'edit-product' && <EditProductForm />}
-            {url === 'vouncher' && <AddVouncher />}
-            {url === 'order' && <AllOrder/>}
-            {!url && <OrderList/>}
-        </>
-    )
+    const body = () => {
+        switch (url) {
+            case 'add-product': return <AddProductForm />
+            case 'add-category': return <AddCategory />
+            case 'add-color': return <AddColor />
+            case 'products': return <ProductList />
+            case 'edit-product': return <EditProductForm />
+            case 'vouncher': return <AddVouncher />
+            case 'order': return <AllOrder />
+            case 'new': return <NewsAction />
+            default: return <OrderList />
+        }
+    }
+
+    // const body = (
+    //     <>
+    //         {url === 'add-product' && <AddProductForm />}
+    //         {url === 'add-category' && <AddCategory />}
+    //         {url === 'add-color' && <AddColor />}
+    //         {url === 'products' && <ProductList />}
+    //         {url === 'edit-product' && <EditProductForm />}
+    //         {url === 'vouncher' && <AddVouncher />}
+    //         {url === 'order' && <AllOrder/>}
+
+    //         {!url && <OrderList/>}
+    //     </>
+    // )
     const location = useLocation()
     return (
         <div className="container-fluid">
@@ -46,9 +62,9 @@ export const AdminPage = ({ url }: AdminProps) => {
                         theme="dark"
                     >
                         <div className="flex-mid p-4">
-                            <img src={logo} style={{height: 'auto', width: '80%'}} alt=""/>
+                            <img src={logo} style={{ height: 'auto', width: '80%' }} alt="" />
                         </div>
-                        <Menu.Item icon={<HomeOutlined/>} key="/admin">
+                        <Menu.Item icon={<HomeOutlined />} key="/admin">
                             <Link to="/admin">Home</Link>
                         </Menu.Item>
                         <SubMenu key="sub1" title="Product">
@@ -65,10 +81,18 @@ export const AdminPage = ({ url }: AdminProps) => {
                                 <Link to="/admin/add-color">Add new color</Link>
                             </Menu.Item>
                         </SubMenu>
-                        <Menu.Item icon={<TagsOutlined/>} key="/vouncher">
+                        <Menu.Item icon={<TagsOutlined />} key="/vouncher">
                             <Link to="/admin/vouncher">Vouncher</Link>
                         </Menu.Item>
-                        <Menu.Item icon={<SnippetsOutlined/>} key="/order">
+                        <SubMenu key="new" title="News">
+                            <Menu.Item icon={<TagsOutlined/>} key="/new">
+                            <Link to="/admin/new/action">News</Link>
+                        </Menu.Item>
+                            {/* <Menu.Item icon={<TagsOutlined/>} key="/new">
+                            <Link to="/admin/new">News</Link>
+                        </Menu.Item> */}
+                        </SubMenu>
+                        <Menu.Item icon={<SnippetsOutlined />} key="/order">
                             <Link to="/admin/order">Order</Link>
                         </Menu.Item>
                         <SubMenu key="sub2" title="Account">
@@ -89,8 +113,8 @@ export const AdminPage = ({ url }: AdminProps) => {
                     <div className="w-100">
                         <div className="container-fluid shadow bg-white p-15">
                             <div className="row">
-                                <div className="d-flex justify-content-between" style={{padding: '0 40px'}}>
-                                    <Search placeholder="Input here" style={{maxWidth: '400px'}} size="large" />
+                                <div className="d-flex justify-content-between" style={{ padding: '0 40px' }}>
+                                    <Search placeholder="Input here" style={{ maxWidth: '400px' }} size="large" />
                                     <Dropdown overlay={<span></span>}>
                                         <button className="user-option-icon">Hello admin<i className="fal fa-users-cog right-icon"></i></button>
                                     </Dropdown>
@@ -98,7 +122,7 @@ export const AdminPage = ({ url }: AdminProps) => {
                             </div>
                         </div>
                         <div className="containter-fluid pw-4 pt-2 bgcolor pb-5">
-                            {body}
+                            {body()}
                         </div>
                     </div>
                 </div>

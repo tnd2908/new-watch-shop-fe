@@ -9,15 +9,18 @@ import { State } from "../../redux";
 import men from '../../assets/banner/left.png'
 import women from '../../assets/banner/right.png'
 import 'aos/dist/aos.css'
+import "../../styles/news.scss";
 import Aos from 'aos'
 import { Divider } from 'antd';
-import { Link } from 'react-router-dom';
-import { Statistic} from 'antd';
+import { Link, useHistory } from 'react-router-dom';
+import { Statistic } from 'antd';
 import Voucher from './Components/Voucher';
 import { Vouncher } from '../../Util/spec';
+
 const { Countdown } = Statistic;
 const HomePage = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const history = useHistory();
     const productNewList: [] = useSelector((state: State) => state.product.productNewList)
     const productHotList: [] = useSelector((state: State) => state.product.productHotList)
     const [voucher, setVoucher] = useState<[Vouncher]>([{
@@ -29,6 +32,8 @@ const HomePage = () => {
         applyFor: 0,
         code: ''
     }])
+    const [news, setNews] = useState([]);
+
     const getProductList = () => {
         try {
             axios.get(`${API_URL}/product/status/New?page=1`)
@@ -42,6 +47,11 @@ const HomePage = () => {
             console.log(error)
         }
     }
+
+    const getNewsList = () => {
+        axios.get(`${API_URL}/news`).then(res => setNews(res.data.result));
+    }
+
     const getProductHotList = () => {
         try {
             axios.get(`${API_URL}/product/status/Hot?page=1`)
@@ -55,21 +65,23 @@ const HomePage = () => {
             console.log(error)
         }
     }
-    const getVoucher = () =>{
+    const getVoucher = () => {
         axios.get(`${API_URL}/voucher`)
-            .then(res=>{
-                if(res.data.success === true){
+            .then(res => {
+                if (res.data.success === true) {
                     setVoucher(res.data.data)
                 }
             })
     }
     useEffect(() => {
+        getNewsList();
         !productNewList.length && getProductList()
         !productHotList.length && getProductHotList()
         getVoucher()
         window.scrollTo(0, 0)
         Aos.init({ duration: 800 })
     }, [])
+
     return (
         <div className="container-fluid component-top bg-white">
             <div className="row">
@@ -94,7 +106,7 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="container-fluid">
-                <Voucher vouncher={voucher}/>
+                <Voucher vouncher={voucher} />
             </div>
             <div className="container" style={{ marginTop: '30px' }}>
                 <ProductList list={productNewList} title="New watches" max={5} />
@@ -103,14 +115,16 @@ const HomePage = () => {
                     <Divider orientation="center" >
                         <h2>OUR STORIES</h2>
                     </Divider>
-                    <div className="col-md-4 story mt-5">
-                        <img src="https://www.gshock-vietnam.vn/wp-content/uploads/2019/08/GBD-800-8-6.png" alt="" />
-                        <div className="w-100 flex-mid flex-column">
-                            <h5>Story title</h5>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit officia, ab, cum, in reprehenderit nostrum doloremque nihil ut aut unde modi alias amet numquam veniam maxime fuga a quasi eligendi.</p>
-                        </div>
-                    </div>
-                    <div className="col-md-4 story mt-5">
+                    {
+                        news.length > 0 && news.map((item: any) => <div key={item?._id} className="col-md-4 story mt-5" onClick={() => history.replace("/news/" + item?._id)}>
+                            <img src="https://www.gshock-vietnam.vn/wp-content/uploads/2019/08/GBD-800-8-6.png" alt="" />
+                            <div className="w-100 flex-mid flex-column">
+                                <h5>{item.title}</h5>
+                                <p className='news__content__title'>{item.description}</p>
+                            </div>
+                        </div>)
+                    }
+                    {/* <div className="col-md-4 story mt-5">
                         <img src="https://www.casio-intl.com/cs/Satellite?blobcol=urldata&blobheader=image%2Fjpeg&blobheadername1=content-disposition&blobheadervalue1=inline%3Bfilename%3DBA-110%28720_405%29.jpg&blobkey=id&blobtable=MungoBlobs&blobwhere=1426310854265&ssbinary=true" alt="" />
                         <div className="w-100 flex-mid flex-column">
                             <h5>Story title</h5>
@@ -123,7 +137,7 @@ const HomePage = () => {
                             <h5>Story title</h5>
                             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit officia, ab, cum, in reprehenderit nostrum doloremque nihil ut aut unde modi alias amet numquam veniam maxime fuga a quasi eligendi.</p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="row mb-3">
                     <div className="col-lg-3 col-6">
