@@ -74,6 +74,8 @@ const Navbar = () => {
     }, [auth, ava])
     if (location.pathname.startsWith('/admin'))
         return <></>
+    if (location.pathname.startsWith('/employee'))
+        return <></>
     else
         return (
             <>

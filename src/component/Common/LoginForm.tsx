@@ -14,7 +14,11 @@ const LoginForm = () => {
                 console.log(res.data)
                 if (res.data.success === true && res.data.adminToken) {
                     localStorage.setItem('admin-token', res.data.adminToken)
-                    history.push('/admin')
+                    history.push('/admin') 
+                }
+                else if(res.data.success === true && res.data.employeeToken) {
+                    localStorage.setItem('employee', res.data.employeeToken)
+                    history.push('/employee')
                 }
                 else if (res.data.success === true && res.data.accessToken) {
                     localStorage.setItem('token', res.data.accessToken)
@@ -33,6 +37,7 @@ const LoginForm = () => {
                     content: res.data.message,
                     okButtonProps: {type: 'default'}
                 })
+                
             })
     }
     return (

@@ -3,7 +3,9 @@ import './App.scss';
 import 'antd/dist/antd.less'
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom'
 import { AdminPage } from './layout/Admin';
+import { EmployeePage } from './layout/Employee';
 import ProtectedRoute from './component/ProtectedRoute';
+import EmployeeRoute from './component/EmployeeRoute'
 import Navbar from './component/Common/Navbar';
 import AuthPage from './layout/Auth/login';
 import Footer from './component/Common/Footer';
@@ -27,6 +29,7 @@ const App = () => {
 			<Suspense fallback={<Loading/>}>
 				<Navbar />
 					<Switch>
+						{/* Admin Route */}
 						<ProtectedRoute exact path="/admin/" render={() => <AdminPage />} />
 						<ProtectedRoute exact path="/admin/add-product" render={() => <AdminPage url="add-product" />} />
 						<ProtectedRoute exact path="/admin/product/edit-product/:name" render={() => <AdminPage url="edit-product" />} />
@@ -35,6 +38,14 @@ const App = () => {
 						<ProtectedRoute exact path="/admin/add-color" render={() => <AdminPage url="add-color" />} />
 						<ProtectedRoute exact path="/admin/vouncher" render={() => <AdminPage url="vouncher" />} />
 						<ProtectedRoute exact path="/admin/order" render={() => <AdminPage url="order" />} />
+						{/* Employee Route */}
+						<EmployeeRoute exact path="/employee/" render={() => <EmployeePage />} />
+						<EmployeeRoute exact path="/employee/add-product" render={() => <EmployeePage url="add-product" />} />
+						<EmployeeRoute exact path="/employee/product/edit-product/:name" render={() => <EmployeePage url="edit-product" />} />
+						<EmployeeRoute exact path="/employee/products" render={() => <EmployeePage url="products" />} />
+						<EmployeeRoute exact path="/employee/add-category" render={() => <EmployeePage url="add-category" />} />
+						<EmployeeRoute exact path="/employee/add-color" render={() => <EmployeePage url="add-color" />} />
+						<EmployeeRoute exact path="/employee/order" render={() => <EmployeePage url="order" />} />
 						<Route exact path="/login" render={() => <AuthPage form="login" />} />
 						<Route exact path="/register" render={() => <AuthPage form="register" />} />
 						<Route exact path="/" component={HomePage} />
